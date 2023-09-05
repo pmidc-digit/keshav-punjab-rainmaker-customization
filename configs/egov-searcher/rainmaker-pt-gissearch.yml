@@ -6,7 +6,7 @@ SearchDefinitions:
   definitions:
     - name: searchNewTaxPayments
       query:
-        baseQuery: >
+        baseQuery: |
           select array_to_json(array_agg(row_to_json(data))) from (
             select
                concat(pt.propertyid , '/' , pt.surveyid) as primarykey,
@@ -53,7 +53,7 @@ SearchDefinitions:
         responseInfoPath: $.ResponseInfo
     - name: searchTLApplicationsEODB
       query:
-        baseQuery: >
+        baseQuery: |
           select array_to_json(array_agg(row_to_json(data))) from (
             select 
               tl.applicationnumber,
@@ -75,7 +75,7 @@ SearchDefinitions:
         responseInfoPath: $.ResponseInfo
     - name: IFMSintegration
       query:
-        baseQuery: >
+        baseQuery: |
           select array_to_json(array_agg(row_to_json(data))) from
             (with details as
               (
