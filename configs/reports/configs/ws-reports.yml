@@ -1599,3 +1599,88 @@ ReportDefinitions:
         inner join owners on owners.propertyid=pt.propertyid
         where swconnection.tenantid=$tenantid and swconnection.status='Active' and bill.businessservice like 'SW%'
   orderby: order by bill.billdate desc
+
+- reportName: CustomerDetailReport
+  summary: Customer Detail Report
+  version: 1.0.0
+  moduleName: rainmaker-ws
+  additionalConfig:
+    print:
+      pdfPageSize: "A1"
+  sourceColumns:
+  - name: digit_conn
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: old_connection_no
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false  
+  - name: status
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: name
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: guardian
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: mobilenumber
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: propertyid
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: locality
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: doorno
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: plotno
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: region
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false    
+  query: |
+    -- Use CTE to force query plan, compute & use CTE later
+    with ptowner as
+    (
+        select split_part(string_agg(userid,','),',',1) as owneruserid,
+        propertyid 
+        from eg_pt_owner
+        where tenantid= $tenantid and status='ACTIVE'
+        group by propertyid
+    )
+    select 
+      distinct (b1.connectionno) as digit_conn, b1.oldconnectionno as old_connection_no,
+      b1.status,userowner.name,userowner.guardian,userowner.mobilenumber,
+      b1.property_id as propertyid,b1.locality,b3.doorno,b3.plotno,b3.region 
+    from eg_ws_connection b1
+    left join eg_ws_connectionholder b4 on b1.id = b4.connectionid
+    inner join eg_pt_property b2 on b1.property_id = b2.propertyid
+    inner join eg_pt_address b3 on b2.id =b3.propertyid
+    inner join ptowner on  ptowner.propertyid=b2.id
+    left outer join eg_user as userowner on ptowner.owneruserid=userowner.uuid
+    where b1.tenantid = $tenantid;
