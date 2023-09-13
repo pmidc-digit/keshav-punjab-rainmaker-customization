@@ -1601,6 +1601,7 @@ ReportDefinitions:
   orderby: order by bill.billdate desc
 
 - reportName: CustomerDetailReport
+  decryptionPathId: FieldCollectionSearchReportWS
   summary: Customer Detail Report
   version: 1.0.0
   moduleName: rainmaker-ws
@@ -1683,4 +1684,4 @@ ReportDefinitions:
     inner join eg_pt_address b3 on b2.id =b3.propertyid
     inner join ptowner on  ptowner.propertyid=b2.id
     left outer join eg_user as userowner on ptowner.owneruserid=userowner.uuid
-    where b1.tenantid = $tenantid;
+    where b1.tenantid = $tenantid and b1.status = 'Active'; 
