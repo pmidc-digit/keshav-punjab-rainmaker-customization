@@ -1715,5 +1715,7 @@ ReportDefinitions:
     isMandatory: true
     searchClause: AND createdtime <= $toDate
   query: |
-    select count(*) as appcount ,applicationstatus as status from eg_ws_connection where tenantid= $tenantid group by applicationstatus ; 
+    select count(*) as appcount ,applicationstatus as status from eg_ws_connection where tenantid= $tenantid 
+  groupby: GROUP BY applicationstatus
+  
   
