@@ -1685,8 +1685,7 @@ ReportDefinitions:
     inner join ptowner on  ptowner.propertyid=b2.id
     left outer join eg_user as userowner on ptowner.owneruserid=userowner.uuid
     where b1.tenantid = $tenantid and b1.status = 'Active'; 
-
-  - reportName: StatusWiseReport
+- reportName: StatusWiseReport
   summary: Status Wise Report
   version: 1.0.0
   moduleName: rainmaker-ws
