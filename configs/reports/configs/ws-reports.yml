@@ -1703,24 +1703,17 @@ ReportDefinitions:
  
   searchParams:
   - name: fromDate
-    label: reports.pt.fromDate
+    label: reports.ws.fromDate
     type: epoch
     source: ws
     isMandatory: true
-    searchClause: AND pd.receiptdate >= $fromDate
+    searchClause: AND createdtime>= $fromDate
   - name: toDate
-    label: reports.pt.toDate
+    label: reports.ws.toDate
     type: epoch
     source: ws
     isMandatory: true
-    searchClause: AND pd.receiptdate <= $toDate
-  - name: connectionType
-    label: connectionType
-    type: singlevaluelist
-    pattern: 'list://WS%:Water,SW%:Sewerage'
-    source: pt
-    isMandatory: true
-    searchClause: AND pd.businessservice like $connectionType
+    searchClause: AND createdtime <= $toDate
   query: |
-    select count(*) as appcount ,applicationstatus as status from eg_ws_connection where tenantid= $tenantid and  createdtime between $fromDate and $toDate group by applicationstatus ; 
+    select count(*) as appcount ,applicationstatus as status from eg_ws_connection where tenantid= $tenantid group by applicationstatus ; 
   
