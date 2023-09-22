@@ -1696,8 +1696,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: receiptnumber
-    label: reports.ws.receiptnumber
+  - name: appcount
+    label: reports.ws.appcount
     type: string
     source: ws
     total: false
