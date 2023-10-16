@@ -555,7 +555,7 @@
                 ]
               },
               {
-                "path": "http://property-service:8080/property/_search",
+                "path": "http://property-services.egov:8080/property-services/property/_search",
                 "queryParam": "propertyIds={$.paymentDetails[0].propertyID}&tenantId={$.tenantId}",
                 "apiRequest": null,
                 "responseMapping": [
