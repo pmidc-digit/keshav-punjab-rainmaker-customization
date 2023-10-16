@@ -481,7 +481,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{consumerID}}",
+                "text": "{{consumerID}},{{plotsize}}",
                 "border": [
                   false,
                   true,
