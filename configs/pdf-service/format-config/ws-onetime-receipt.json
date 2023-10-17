@@ -471,7 +471,7 @@
                 "font": "Roboto"
               },
               {
-                "text": "{{consumer_id}}",
+                "text": "{{consumer_id}}, {{plotsizelandarea}}",
                 "border": [
                   false,
                   true,
@@ -481,7 +481,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{consumerID}},{{plotsize}}",
+                "text": "{{consumerID}}, {{plotsizelandarea}}",
                 "border": [
                   false,
                   true,

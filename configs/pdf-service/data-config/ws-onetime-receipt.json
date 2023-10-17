@@ -560,8 +560,8 @@
                 "apiRequest": null,
                 "responseMapping": [
                   {
-                    "variable": "plotsize",
-                    "value": "$.Properties[0].landArea"
+                    "variable": "plotsizelandarea",
+                    "value": "$.Properties[0]."
                   }
                 ]
               }
