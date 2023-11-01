@@ -1823,19 +1823,16 @@ ReportDefinitions:
         type: string
         source: ws
         total: false
-		
       - name: pendingamount
         label: reports.ws.pendingamount
         type: string
         source: ws
         total: true
-
       - name: tenantid
         label: reports.ws.tenantid
         type: string
         source: ws
         total: false
-      
       - name: instrumenttype
         label: reports.ws.paymentMode
         type: string
