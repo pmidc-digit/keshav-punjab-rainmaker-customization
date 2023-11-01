@@ -1803,22 +1803,22 @@ ReportDefinitions:
         type: string
         source: ws
         total: true
-	   - name: tax_adjustment
+      - name: tax_adjustment
         label: reports.ws.tax_adjustment
         type: string
         source: ws
         total: false
-	  - name: ws_time_interest
+      - name: ws_time_interest
         label: reports.ws.ws_time_interest
         type: string
         source: ws
         total: false
-	  - name: ws_time_penalty
+      - name: ws_time_penalty
         label: reports.ws.ws_time_penalty
         type: string
         source: ws
         total: false
-	  - name: user_charge
+      - name: user_charge
         label: reports.ws.user_charge
         type: string
         source: ws
