@@ -1759,13 +1759,13 @@ ReportDefinitions:
       label: reports.ws.fromDate
       type: epoch
       source: ws
-      isMandatory: true
+      isMandatory: false
       searchClause: AND pd.receiptdate >= $fromDate
     - name: toDate
       label: reports.ws.toDate
       type: epoch
       source: ws
-      isMandatory: true
+      isMandatory: false
       searchClause: AND pd.receiptdate <= $toDate
 query: >
       -- Use CTE to force query plan, compute & use CTE later
