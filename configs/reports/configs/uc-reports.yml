@@ -1127,7 +1127,7 @@ ReportDefinitions:
                     FROM egcl_billaccountdetail 
                     INNER JOIN egcl_billdetial as billd on billd.id = egcl_billaccountdetail.billdetailid
                     INNER JOIN egcl_bill as bill on bill.id=billd.billid
-                    WHERE  billd.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC') 
+                    WHERE  billd.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC','WS','SW','WS.ONE_TIME_FEE') 
                     GROUP BY billdetailid,bill.id
         )
         SELECT 
@@ -1154,7 +1154,7 @@ ReportDefinitions:
         JOIN egcl_billdetial as billd on billd.billid=paydetail.billid
         JOIN eg_user ON payment.createdby::INTEGER=eg_user.id
         LEFT OUTER JOIN bank_branches on bank_branches.ifsc=payment.ifsccode 
-        WHERE  payment.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC')  and payment.paymentstatus != 'CANCELLED'
+        WHERE  payment.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC','WS','SW','WS.ONE_TIME_FEE')  and payment.paymentstatus != 'CANCELLED'
     orderby: ORDER BY paydetail.receiptdate DESC
 
 
@@ -1587,7 +1587,7 @@ ReportDefinitions:
                     FROM egcl_billaccountdetail 
                     INNER JOIN egcl_billdetial as billd on billd.id = egcl_billaccountdetail.billdetailid
                     INNER JOIN egcl_bill as bill on bill.id=billd.billid
-                    WHERE  billd.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC') 
+                    WHERE  billd.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC','WS','SW','WS.ONE_TIME_FEE')  
                     GROUP BY billdetailid,bill.id
         )
         SELECT 
@@ -1609,7 +1609,7 @@ ReportDefinitions:
         JOIN egcl_paymentdetail as paydetail on paydetail.paymentid=payment.id
         JOIN receipt_breakup ON paydetail.billid = receipt_breakup.bill_id
         JOIN eg_user ON payment.createdby::INTEGER=eg_user.id
-        WHERE  payment.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC')  and payment.paymentstatus = 'CANCELLED'
+        WHERE  payment.tenantid=$tenantid AND businessservice not in ('PT','TL','FIRENOC','WS','SW','WS.ONE_TIME_FEE')   and payment.paymentstatus = 'CANCELLED'
     orderby: ORDER BY paydetail.receiptdate DESC
 
   - reportName: MiscReceiptULBShort_v2
