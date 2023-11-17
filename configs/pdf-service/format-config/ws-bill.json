@@ -402,6 +402,16 @@
                         "style": "receipt-table-value2"
                       },
                       {
+                        "text": "Mobile Number",
+                        "border": [
+                          false,
+                          false,
+                          false,
+                          false
+                        ],
+                        "style": "receipt-table-value2"
+                      },
+                      {
                         "text": "Street Name/Landmark",
                         "border": [
                           false,
