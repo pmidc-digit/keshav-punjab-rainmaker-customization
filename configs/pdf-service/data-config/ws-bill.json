@@ -816,6 +816,10 @@
                 "apiRequest": null,
                 "responseMapping": [
                   {
+                    "variable":"propertyId",
+                    "value":"$.connection.propertyId"
+                  },
+                  {
                     "variable": "usageType",
                     "value": "$.Properties[0].usageCategory"
                   },

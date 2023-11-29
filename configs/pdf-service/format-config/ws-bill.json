@@ -434,6 +434,16 @@
                     ],
                     [
                       {
+                        "text": "{{propertyId}}",
+                        "border": [
+                          false,
+                          false,
+                          false,
+                          false
+                        ],
+                        "style": "receipt-table2"
+                      },
+                      {
                         "text": "{{usageType}}",
                         "border": [
                           false,
