@@ -444,7 +444,7 @@
                         "style": "receipt-table2"
                       },
                       {
-                        "text": "{{usageType}}",
+                        "text": "{{usageTypegggg}}",
                         "border": [
                           false,
                           false,
@@ -455,7 +455,7 @@
                       },
                       
                       {
-                        "text": "{{mobileNo}}",
+                        "text": "{{mobileNodddddd}}",
                         "border": [
                           false,
                           false,
