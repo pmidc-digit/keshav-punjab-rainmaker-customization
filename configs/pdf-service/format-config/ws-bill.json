@@ -424,7 +424,7 @@
                     ],
                     [
                       {
-                        "text": "{{usageType}}",
+                        "text": "{{usageTypedddddd}}",
                         "border": [
                           false,
                           false,
@@ -435,7 +435,7 @@
                       },
                       
                       {
-                        "text": "{{mobileNo}}",
+                        "text": "{{mobileNodddd}}",
                         "border": [
                           false,
                           false,
