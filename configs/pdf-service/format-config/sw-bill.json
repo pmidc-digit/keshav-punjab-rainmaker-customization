@@ -54,7 +54,7 @@
               {
                 "stack": [
                   {
-                    "text": "{{total_amount_due}}"
+                    "text": "{{total_amount_due}} testing "
                   },
                   {
                     "text": "{{Rs}} {{totalAmountDue}}",
