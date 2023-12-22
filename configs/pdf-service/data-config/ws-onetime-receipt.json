@@ -561,7 +561,7 @@
                 "responseMapping": [
                   {
                     "variable": "plotsizelandarea",
-                    "value": "$.Properties[0]."
+                    "value": "$.Properties[0].contactNumber"
                   }
                 ]
               }
