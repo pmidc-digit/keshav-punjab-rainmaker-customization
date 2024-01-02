@@ -523,10 +523,6 @@
                     "value": "$.MdmsRes.tenant.tenants[0].address"
                   },
                   {
-                    "variable":"mcGrade",
-                    "value":"$.MdmsRes.tenant.tenants[0].city.pwssbGrade=='Amritsar' && $.MdmsRes.tenant.tenants[0].city.localName=='Amritsar' ?'Test Testone':$.MdmsRes.tenant.tenants[0].city.pwssbGrade"
-                  },
-                  {
                     "variable":"mcmytest",
                     "value":"test test"
                   },
