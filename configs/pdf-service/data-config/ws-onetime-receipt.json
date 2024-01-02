@@ -486,7 +486,7 @@
                 }
               },
               {
-                "variable": "Municipal_Corporation",
+                "variable": "mcGrade",
                 "value": {
                   "path": "PDF_STATIC_LABEL_MDMS_MUNICIPAL_CORPORATION"
                 },
