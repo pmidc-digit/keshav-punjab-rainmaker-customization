@@ -524,7 +524,11 @@
                   },
                   {
                     "variable":"mcGrade",
-                    "value":"$.MdmsRes.tenant.tenants[0].city.pwssbGrade=='Amritsar' && $.MdmsRes.tenant.tenants[0].city.localName=='Amritsar' ?'Test Test ':$.MdmsRes.tenant.tenants[0].city.pwssbGrade"
+                    "value":"$.MdmsRes.tenant.tenants[0].city.pwssbGrade=='Amritsar' && $.MdmsRes.tenant.tenants[0].city.localName=='Amritsar' ?'Test Testone':$.MdmsRes.tenant.tenants[0].city.pwssbGrade"
+                  },
+                  {
+                    "variable":"mcmytest",
+                    "value":"test test"
                   },
                   {
                     "variable": "phoneNumber",

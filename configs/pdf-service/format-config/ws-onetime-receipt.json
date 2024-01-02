@@ -23,7 +23,7 @@
               {
                 "stack": [
                   {
-                    "text": "{{logo-header}}{{mcGrade}}",
+                    "text": "{{logo-header}}{{mcmytest}}",
                     "style": "receipt-logo-header"
                   },
                   {
@@ -471,7 +471,7 @@
                 "font": "Roboto"
               },
               {
-                "text": "{{consumer_id}}, {{plotsizelandarea}}",
+                "text": "{{consumer_id}}",
                 "border": [
                   false,
                   true,
@@ -481,7 +481,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{consumerID}}, {{plotsizelandarea}}",
+                "text": "{{consumerID}}",
                 "border": [
                   false,
                   true,
