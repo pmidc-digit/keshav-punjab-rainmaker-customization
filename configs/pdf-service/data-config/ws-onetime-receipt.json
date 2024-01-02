@@ -486,7 +486,7 @@
                 }
               },
               {
-                "variable": "mcGrade",
+                "variable": "Municipal_Corporation",
                 "value": {
                   "path": "PDF_STATIC_LABEL_MDMS_MUNICIPAL_CORPORATION"
                 },
@@ -523,8 +523,8 @@
                     "value": "$.MdmsRes.tenant.tenants[0].address"
                   },
                   {
-                    "variable":"mcmytest",
-                    "value":"testtestone"
+                    "variable":"mcGrade",
+                    "value":"$.MdmsRes.tenant.tenants[0].city.pwssbGrade"
                   },
                   {
                     "variable": "phoneNumber",
@@ -551,17 +551,6 @@
                       "prefix": "TENANT_TENANTS",
                       "module": "rainmaker-common"
                     }
-                  }
-                ]
-              },
-              {
-                "path": "http://property-services.egov:8080/property-services/property/_search",
-                "queryParam": "propertyIds={$.paymentDetails[0].propertyID}&tenantId={$.tenantId}",
-                "apiRequest": null,
-                "responseMapping": [
-                  {
-                    "variable": "plotsizelandarea",
-                    "value": "$.Properties[0].contactNumber"
                   }
                 ]
               }
