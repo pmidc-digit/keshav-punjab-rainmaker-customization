@@ -23,7 +23,7 @@
               {
                 "stack": [
                   {
-                    "text": "{{logo_header}} {{mcGrade}} (Digit UAT)",
+                    "text": "{{logo_header}} {{mcGradePwssb}} (Digit UAT)",
                     "style": "receipt-logo-header"
                   },
                   {
