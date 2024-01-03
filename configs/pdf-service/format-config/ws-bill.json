@@ -23,7 +23,7 @@
               {
                 "stack": [
                   {
-                    "text": "{{logo_header}} {{mcGrade}}",
+                    "text": "{{logo_header}} {{mcGradePwssb}}",
                     "style": "receipt-logo-header"
                   },
                   {
@@ -1011,7 +1011,7 @@
       "receipt-logo-header": {
         "color": "#484848",
         "fontFamily": "Roboto",
-        "fontSize": 14,
+        "fontSize": 10,
         "bold": true,
         "letterSpacing": 0.74,
         "margin": [
