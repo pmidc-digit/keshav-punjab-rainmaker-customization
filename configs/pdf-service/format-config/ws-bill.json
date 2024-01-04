@@ -241,7 +241,7 @@
                         "style": "receipt-table-value2"
                       },
                       {
-                        "text": "Ledger Id",
+                        "text": "Ledger No",
                         "border": [
                           false,
                           false,
