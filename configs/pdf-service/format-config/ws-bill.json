@@ -23,17 +23,14 @@
               {
                 "stack": [
                   {
-                    "text": "{{logo_header}} {{mcGradePwssb}} (Digit UAT)",
+                    "text": "{{logo_header}} {{mcGradePwssb}}",
                     "style": "receipt-logo-header"
                   },
                   {
                     "stack": [
                       {
                         "text": "{{address}}"
-                      },
-                      {
-                        "text": "{{phoneNumber}}"
-                      },
+                      },                     
                       {
                         "text": "{{website}}"
                       },
@@ -54,7 +51,7 @@
               {
                 "stack": [
                   {
-                    "text": "{{total_amount_due}}"
+                    "text": "{{total_amount_due}} {{testing billWS}}"
                   },
                   {
                     "text": "{{Rs}} {{totalAmountDue}}",
@@ -224,7 +221,7 @@
                         "style": "receipt-table-value2"
                       },
                       {
-                        "text": "Old Consumer No.",
+                        "text": "Old Consumer id No.",
                         "border": [
                           false,
                           false,
@@ -244,7 +241,7 @@
                         "style": "receipt-table-value2"
                       },
                       {
-                        "text": "Ledger Id",
+                        "text": "Ledger No",
                         "border": [
                           false,
                           false,
@@ -402,16 +399,6 @@
                         "style": "receipt-table-value2"
                       },
                       {
-                        "text": "Mobile Number",
-                        "border": [
-                          false,
-                          false,
-                          false,
-                          false
-                        ],
-                        "style": "receipt-table-value2"
-                      },
-                      {
                         "text": "Street Name/Landmark",
                         "border": [
                           false,
@@ -434,17 +421,7 @@
                     ],
                     [
                       {
-                        "text": "{{propertyId}}",
-                        "border": [
-                          false,
-                          false,
-                          false,
-                          false
-                        ],
-                        "style": "receipt-table2"
-                      },
-                      {
-                        "text": "{{usageTypegggg}}",
+                        "text": "{{usageTypedddddd}}",
                         "border": [
                           false,
                           false,
@@ -455,7 +432,7 @@
                       },
                       
                       {
-                        "text": "{{mobileNodddddd}}",
+                        "text": "{{mobileNodddd}}",
                         "border": [
                           false,
                           false,
@@ -737,7 +714,7 @@
             ],
             [
               {
-                "text": "1. Online payment can be done for {{serviceType}} charges payment.  http://bit.ly/{{logo_header}}{{serviceType}}",
+                "text": "1. Online payment can be done for {{serviceType}} charges payment.  https://mseva.lgpunjab.gov.in/{{logo_header}}{{serviceType}}",
                 "border": [
                   true,
                   false,
@@ -754,7 +731,7 @@
             ],
             [
               {
-                "text": "2. If last day to pay bill is a holiday. Kindly pay your bills either online or offline on previous working day to avoid penalty.",
+                "text": "2. If last date of bill is a holiday. Kindly pay your bills either online or offline on next working day to avoid penalty.",
                 "border": [
                   true,
                   false,
@@ -771,7 +748,7 @@
             ],
             [
               {
-                "text": "3. Payment mode available: Cash/Cheque at office counter,Online: Credit/Debit Card/PayTM/FreeCharge/BBPS/Airtel/SewaKendra.",
+                "text": "3. Payment mode available: Cash/Cheque at office counter,Online.",
                 "border": [
                   true,
                   false,
@@ -805,7 +782,7 @@
             ],
             [
               {
-                "text": "5. {{rate}}% Late payment charges will be applied after due date",
+                "text": "5. {{rate}}% surcharge charges will be applied after due date",
                 "border": [
                   true,
                   false,
@@ -822,7 +799,24 @@
             ],
             [
               {
-                "text": "6. Interest & late payment charges calculated based on the payment date will reflect in next bill ",
+                "text": "6. surcharge & late payment charges calculated based on the payment date will reflect in next bill ",
+                "border": [
+                  true,
+                  false,
+                  true,
+                  false
+                ],
+                "margin": [
+                  4,
+                  0,
+                  0,
+                  0.5
+                ]
+              }
+            ],
+            [
+              {
+                "text": "7. Bill Payment collect/recover during office period i.e.09:00AM to 01:30PM. ",
                 "border": [
                   true,
                   false,
@@ -842,10 +836,6 @@
         "layout": {}
       },
       {
-        "text": "Authorized Signatory",
-        "style": "footer-bottom"
-      },
-      {
         "canvas": [
           {
             "type": "line",
@@ -859,6 +849,10 @@
             }
           }
         ]
+      },
+      {
+        "text": "Authorized Signatory",
+        "style": "footer-bottom"
       },
       {
         "image": "{{scissorImage}}",
@@ -1017,18 +1011,6 @@
       {
         "text": "{{receivers_signature}}",
         "style": "footer-bottom"
-      },
-      {
-        "image": "{{footerLogoImage}}",
-        "width": 75,
-        "height": 10,
-        "alignment": "center",
-        "margin": [
-          -12,
-          -10,
-          -230,
-          0
-        ]
       }
     ],
     "styles": {
@@ -1043,7 +1025,7 @@
       "receipt-logo-header": {
         "color": "#484848",
         "fontFamily": "Roboto",
-        "fontSize": 14,
+        "fontSize": 8,
         "bold": true,
         "letterSpacing": 0.74,
         "margin": [
