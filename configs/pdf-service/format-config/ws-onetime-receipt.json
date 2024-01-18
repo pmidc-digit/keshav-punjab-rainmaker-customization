@@ -45,23 +45,16 @@
                     "text": "{{address}}"
                   },
                   {
-                    "text": "{{phoneNumber}}"
-                  },
-                  {
                     "text": "{{website}}"
-                  },
-                  {
-                    "text": "{{email}}"
                   }
+                  
                 ],
                 "alignment": "center",
                 "color": "#484848",
-                "margin": [
-                  -100,
-                  0,
-                  -25,
-                  0
-                ]
+                "absolutePosition" : {
+                  "x" : 400,
+                  "y" : 90
+               }
               }
             ]
           ]
