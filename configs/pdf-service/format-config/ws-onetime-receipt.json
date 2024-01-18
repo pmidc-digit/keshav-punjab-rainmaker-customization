@@ -49,11 +49,11 @@
                   }
                   
                 ],
-                "alignment": "center",
+                
                 "color": "#484848",
                 "absolutePosition" : {
-                  "x" : 400,
-                  "y" : 90
+                  "x" : 250,
+                  "y" : 120
                }
               }
             ]
