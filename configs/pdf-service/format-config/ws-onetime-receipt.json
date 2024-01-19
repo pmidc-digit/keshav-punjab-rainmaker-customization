@@ -42,19 +42,16 @@
               {
                 "stack": [
                   {
-                    "text": "{{address}}"
+                    "text": "{{address}}",
+                    "style": "receipt-address-header"
                   },
                   {
-                    "text": "{{website}}"
+                    "text": "{{website}}",
+                    "style": "receipt-website-header"
                   }
                   
-                ],
-                
-                "color": "#484848",
-                "absolutePosition" : {
-                  "x" : 250,
-                  "y" : 120
-               }
+                ]             
+               
               }
             ]
           ]
@@ -754,13 +751,20 @@
           0,
           0,
           0,
-          2
+          0
         ]
       },
       "receipt-logo-sub-header": {
         "color": "#000000",
         "fontSize": 12,
         "letterSpacing": 0.6
+      },
+
+      "receipt-address-header": {
+        "absolutePosition" : {
+          "x" : 500,
+          "y" : 300
+       }
       },
       "noc-table": {
         "fontSize": 12,
