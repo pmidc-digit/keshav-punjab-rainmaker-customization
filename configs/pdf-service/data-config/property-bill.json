@@ -788,7 +788,7 @@
                 "formula": "{{pt_cancer_cess}}"
               },
               {
-                "variable": "time_interest",
+                "variable": "time_interestttt",
                 "formula": "{{pt_time_interest}}"
               },
               {
