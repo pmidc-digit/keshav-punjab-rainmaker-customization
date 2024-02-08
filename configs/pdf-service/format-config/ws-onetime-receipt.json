@@ -406,15 +406,9 @@
                   },
                   {
                     "text": "{{phoneNumber}}"
-                  },
-                  {
-                    "text": "{{website}}"
-                  },
-                  {
-                    "text": "{{email}}"
-                  }
+                  }                  
                 ],
-                "alignment": "right",
+                "alignment": "center",
                 "color": "#484848",
                 "margin": [
                   -100,
