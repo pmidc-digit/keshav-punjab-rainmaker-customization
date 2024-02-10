@@ -406,9 +406,15 @@
                   },
                   {
                     "text": "{{phoneNumber}}"
-                  }                  
+                  },
+                  {
+                    "text": "{{website}}"
+                  },
+                  {
+                    "text": "{{email}}"
+                  }
                 ],
-                "alignment": "center",
+                "alignment": "right",
                 "color": "#484848",
                 "margin": [
                   -100,
