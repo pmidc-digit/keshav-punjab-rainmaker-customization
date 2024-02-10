@@ -965,25 +965,25 @@ ReportDefinitions:
     source: ws
     total: false
   searchParams:
-  - name: connectionType
-    label: connectionType
+  - name: serviceType
+    label: serviceType
     type: singlevaluelist
     pattern: 'list://WS%:Water,SW%:Sewerage'
     source: pt
     isMandatory: true
-    searchClause: AND bill.businessservice like $connectionType
+    searchClause: AND pd.businessservice like $serviceType
   - name: fromDate
     label: reports.pt.fromDate
     type: epoch
     source: pt
-    isMandatory: false
-    searchClause: AND payment.transactiondate >= $fromDate
+    isMandatory: true
+    searchClause: AND pd.receiptdate >= $fromDate
   - name: toDate
     label: reports.pt.toDate
     type: epoch
     source: pt
-    isMandatory: false
-    searchClause: AND payment.transactiondate <= $toDate
+    isMandatory: true
+    searchClause: AND pd.receiptdate <= $toDate
   query: |
     -- Use CTE to force query plan, compute & use CTE later
     select 
@@ -1001,7 +1001,7 @@ ReportDefinitions:
     from egcl_paymentdetail pd Left outer join eg_user on eg_user.id = pd.createdby::INTEGER
     inner join egcl_bill as bill on bill.id=pd.billid
     INNER join egcl_payment as payment on payment.id=pd.paymentid
-    where paymentmode='ONLINE' and payment.tenantid=$tenantid
+    where paymentmode='ONLINE' and  pd.businessservice in ('WS','SW') and payment.tenantid=$tenantid
   orderby: ORDER BY payment.transactiondate DESC
   
 - reportName: ReceiptCollections
