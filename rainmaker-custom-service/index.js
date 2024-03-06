@@ -1052,7 +1052,7 @@ router.post('/protected/punjab-pt/pre-hook/pg-service/transaction/v1/_create', a
         url_callback.path = '/customization/open/punjab-pt/payu/confirm';
         url_callback.pathname = '/customization/open/punjab-pt/payu/confirm';
 
-        request['Transaction']['callbackUrl'] = url.format(url_callback);
+        request['Transaction']['callbackUrl'] = url.format(original_callback);
     }
      // else if (request['Transaction']['tenantId'] == 'pb.amritsar' || request['Transaction']['tenantId'] == 'pb.mohali' || request['Transaction']['tenantId'] == 'pb.hoshiarpur' || request['Transaction']['tenantId'] == 'pb.kapurthala' || request['Transaction']['tenantId'] == 'pb.khanna' || request['Transaction']['tenantId'] == 'pb.moga' || request['Transaction']['tenantId'] == 'pb.mandigobindgarh'|| request['Transaction']['tenantId'] == 'pb.handiaya') {
     else {
