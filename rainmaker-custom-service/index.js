@@ -1022,14 +1022,12 @@ router.post('/open/punjab-pt/payu/confirm', asyncMiddleware((async function (req
 })))
 
 router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function (req, res) {
-    let return_data = req.body;
+  let return_data = req.body;
     original_callback = req.query.original_callback;
     delete req.query['original_callback'];
-    let txnid = req.query.orderNo;
-     let newtxnid = req.query['orderNo'];
+    let txnid = req.query.eg_pg_txnid
     delete req.query['eg_pg_txnid'];
- console.log('new txt id :', txnid);
-     console.log('old order  to:', newtxnid);
+
     new_query_params = Object.assign({}, return_data, req.query);
     redirect_url = url.format(
         {
