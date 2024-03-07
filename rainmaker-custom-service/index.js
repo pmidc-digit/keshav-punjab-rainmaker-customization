@@ -1021,6 +1021,25 @@ router.post('/open/punjab-pt/payu/confirm', asyncMiddleware((async function (req
     res.redirect(redirect_url);
 })))
 
+router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function (req, res) {
+    let return_data = req.body;
+    original_callback = req.query.original_callback;
+    delete req.query['original_callback'];
+    let txnid = req.query.eg_pg_txnid
+    delete req.query['eg_pg_txnid'];
+
+    new_query_params = Object.assign({}, return_data, req.query);
+    redirect_url = url.format(
+        {
+            pathname: original_callback,
+            query: new_query_params
+        }
+    )
+    //ensuring the first query param is eg_pg_txnid
+    redirect_url = redirect_url.replace('?', '?'+ 'eg_pg_txnid=' + txnid +'&')
+    res.redirect(redirect_url);
+})))
+
 router.post('/protected/punjab-pt/pre-hook/pg-service/transaction/v1/_create', asyncMiddleware((async function (req, res) {
     let {
         request
@@ -1049,8 +1068,8 @@ router.post('/protected/punjab-pt/pre-hook/pg-service/transaction/v1/_create', a
 
         url_callback.query['original_callback'] = url_callback.path;
 
-        // url_callback.path = '/customization/open/punjab-pt/payu/confirm';
-        // url_callback.pathname = '/customization/open/punjab-pt/payu/confirm';
+         url_callback.path = '/customization/open/punjab-pt/ccavanue/confirm';
+         url_callback.pathname = '/customization/open/punjab-pt/ccavanue/confirm';
 
         request['Transaction']['callbackUrl'] = url.format(url_callback);
     }
