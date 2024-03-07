@@ -1025,8 +1025,8 @@ router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function 
     let return_data = req.body;
     original_callback = req.query.original_callback;
     delete req.query['original_callback'];
-    let txnid = req.query.eg_pg_txnid
-    delete req.query['eg_pg_txnid'];
+    let txnid = req.query.eg_pg_txnid;
+    //delete req.query['eg_pg_txnid'];
 
     new_query_params = Object.assign({}, return_data, req.query);
     redirect_url = url.format(
