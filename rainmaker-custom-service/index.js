@@ -1026,8 +1026,10 @@ router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function 
     original_callback = req.query.original_callback;
     delete req.query['original_callback'];
     let txnid = req.query.orderN0;
+     let newtxnid = req.query['eg_pg_txnid'];
     delete req.query['eg_pg_txnid'];
-
+ console.log('new txt id :', txnid);
+     console.log('old order  to:', newtxnid);
     new_query_params = Object.assign({}, return_data, req.query);
     redirect_url = url.format(
         {
