@@ -1026,7 +1026,6 @@ router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function 
     original_callback = req.query.original_callback;
     delete req.query['original_callback'];
     let txnid = req.query.eg_pg_txnid;
-     let newtxnid = req.query['eg_pg_txnid'];
     delete req.query['eg_pg_txnid'];
 
     new_query_params = Object.assign({}, return_data, req.query);
@@ -1037,7 +1036,7 @@ router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function 
         }
     )
     //ensuring the first query param is eg_pg_txnid
-    redirect_url = redirect_url.replace('?', '?'+ 'eg_pg_txnid=' + newtxnid +'&')
+    redirect_url = redirect_url.replace('?', '?'+ 'eg_pg_txnid=' + txnid +'&')
     res.redirect(redirect_url);
 })))
 
