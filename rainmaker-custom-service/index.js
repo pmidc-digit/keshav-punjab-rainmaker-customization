@@ -1023,7 +1023,12 @@ router.post('/open/punjab-pt/payu/confirm', asyncMiddleware((async function (req
 
 router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function (req, res) {
   let return_data = req.body;
+     console.log('Request Body :', return_data);
+    
     original_callback = req.query.original_callback;
+         console.log('Request Query  :',  req.query);
+         console.log('Request original callback  :',  original_callback);
+
     delete req.query['original_callback'];
     let txnid = req.query.eg_pg_txnid
     delete req.query['eg_pg_txnid'];
