@@ -1024,7 +1024,8 @@ router.post('/open/punjab-pt/payu/confirm', asyncMiddleware((async function (req
 router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function (req, res) {
   let return_data = req.body;
      console.log('Request Body :', return_data);
-    
+    let orderNo = return_data.orderNo;
+
     original_callback = req.query.original_callback;
          console.log('Request Query  :',  req.query);
          console.log('Request original callback  :',  original_callback);
@@ -1041,7 +1042,7 @@ router.post('/open/punjab-pt/ccavanue/confirm', asyncMiddleware((async function 
         }
     )
     //ensuring the first query param is eg_pg_txnid
-    redirect_url = redirect_url.replace('?', '?'+ 'eg_pg_txnid=' + txnid +'&')
+    redirect_url = redirect_url.replace('?', '?'+ 'eg_pg_txnid=' + orderNo +'&')
     res.redirect(redirect_url);
 })))
 
