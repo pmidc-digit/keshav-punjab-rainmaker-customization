@@ -31,7 +31,7 @@
                     "style": "receipt-logo-sub-header"
                   }
                 ],
-                "alignment": "left",
+                "alignment": "center",
                 "margin": [
                   0,
                   7,
@@ -42,26 +42,16 @@
               {
                 "stack": [
                   {
-                    "text": "{{address}}"
+                    "text": "{{address}}",
+                    "style": "receipt-address-header"
                   },
                   {
-                    "text": "{{phoneNumber}}"
-                  },
-                  {
-                    "text": "{{website}}"
-                  },
-                  {
-                    "text": "{{email}}"
+                    "text": "{{website}}",
+                    "style": "receipt-website-header"
                   }
-                ],
-                "alignment": "right",
-                "color": "#484848",
-                "margin": [
-                  -100,
-                  0,
-                  -25,
-                  0
-                ]
+                  
+                ]             
+               
               }
             ]
           ]
@@ -249,49 +239,6 @@
                 
               }
             ],   
-            [
-              {
-                "text": "Usage Category",
-                "border": [
-                  true,
-                  false,
-                  false,
-                  false
-                ],
-                "style": "receipt-table-value"
-              },
-              {
-                "text": "{{UsageCategory}}",
-                "border": [
-                  false,
-                  false,
-                  false,
-                  false
-                ],
-                "style": "receipt-table"
-              },
-              {
-                "text": "Address",
-                "border": [
-                  false,
-                  false,
-                  false,
-                  false
-                ],
-                "style": "receipt-table-value"
-              },
-              {
-                "text": "{{ADdress}}",
-                "border": [
-                  false,
-                  false,
-                  true,
-                  false
-                ],
-                "style": "receipt-table"
-                
-              }
-            ],
             [
               {
                 "text": "Bank Name",
@@ -661,49 +608,6 @@
                 "style": "receipt-table"
                 
               }
-            ],
-            [
-              {
-                "text": "Usage Category",
-                "border": [
-                  true,
-                  false,
-                  false,
-                  false
-                ],
-                "style": "receipt-table-value"
-              },
-              {
-                "text": "{{UsageCategory}}",
-                "border": [
-                  false,
-                  false,
-                  false,
-                  false
-                ],
-                "style": "receipt-table"
-              },
-              {
-                "text": "Address",
-                "border": [
-                  false,
-                  false,
-                  false,
-                  false
-                ],
-                "style": "receipt-table-value"
-              },
-              {
-                "text": "{{ADdress}}",
-                "border": [
-                  false,
-                  false,
-                  true,
-                  false
-                ],
-                "style": "receipt-table"
-                
-              }
             ],   
             [
               {
@@ -847,13 +751,20 @@
           0,
           0,
           0,
-          2
+          0
         ]
       },
       "receipt-logo-sub-header": {
         "color": "#000000",
         "fontSize": 12,
         "letterSpacing": 0.6
+      },
+
+      "receipt-address-header": {
+        "absolutePosition" : {
+          "x" : 500,
+          "y" : 300
+       }
       },
       "noc-table": {
         "fontSize": 12,
