@@ -32,12 +32,6 @@
                 }
               },
               {
-                "variable": "LandArea",
-                "value": {
-                  "path": "$.propertyDetail.landArea"
-                }
-              },
-              {
                 "variable": "user-name",
                 "value": {
                   "path": "$.userInfo.name"
