@@ -31,7 +31,7 @@
                   "path": "$.address"
                 }
               },
-              {
+               {
                 "variable": "user-name",
                 "value": {
                   "path": "$.userInfo.name"
