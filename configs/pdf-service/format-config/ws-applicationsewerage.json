@@ -33,7 +33,7 @@
                                         "style": "receipt-logo-header"
                                     },
                                     {
-                                        "text": "test",
+                                        "text": "{{logo_sub_header}}",
                                         "fontSize": 10
                                     }
                                 ],
