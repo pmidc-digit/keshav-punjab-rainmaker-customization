@@ -1006,7 +1006,7 @@
                                     },
                                     {
                                         "variable":"mcGrade",
-                                        "value":"$.MdmsRes.tenant.tenants[0].description"
+                                        "value":"$.MdmsRes.tenant.tenants[0].city.pwssbGrade"
                                       },
                                     {
                                         "variable": "logo_header",
