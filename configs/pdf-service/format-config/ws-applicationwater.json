@@ -31,12 +31,8 @@
                                     {
                                         "text": "{{logo_header}} {{mcGrade}}",
                                         "style": "receipt-logo-header"
-                                    },
-                                    {
-                                        "text": "{{logo_sub_header}}",
-                                        "fontSize": 10
-
                                     }
+                                    
                                 ],
                                 "alignment": "left",
                                 "margin": [
