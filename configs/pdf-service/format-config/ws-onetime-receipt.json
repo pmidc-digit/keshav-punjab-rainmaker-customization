@@ -190,7 +190,7 @@
             ],
             [
               {
-                "text": "Chq/DD/PO/Txn Date",
+                "text": "Chq/DD/PO/Txn No",
                 "border": [
                   true,
                   false,
@@ -276,7 +276,7 @@
             ],                
             [
               {
-                "text": "Bank Name",
+                "text": "Property ID",
                 "border": [
                   true,
                   false,
@@ -286,7 +286,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{bankName}},{{branchName}}",
+                "text": "{{proPertyid}}",
                 "border": [
                   false,
                   false,
