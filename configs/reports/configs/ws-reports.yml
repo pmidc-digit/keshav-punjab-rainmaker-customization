@@ -34,8 +34,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: collectedby
-    label: reports.ws.collectedby
+  - name: collectorname
+    label: reports.ws.collectorname
     type: string
     source: ws
     total: false
@@ -128,7 +128,7 @@ ReportDefinitions:
       paymentstatus,
       instrumentnumber,
       instrumentdate,
-      usr.username as collectedby,
+      usr.username as collectorname,
       payername as ownername1
     from egcl_paymentdetail pd
     inner join egcl_bill as bill on bill.id=pd.billid    
