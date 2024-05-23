@@ -2395,7 +2395,7 @@ ReportDefinitions:
     source: ws
     total: false        
   query: |
-    with OwnerInfo AS (with OwnerInfo AS (    select split_part(string_agg(userid, ','), ',', 1) AS owneruserid,
+    with OwnerInfo AS (  select split_part(string_agg(userid, ','), ',', 1) AS owneruserid,
     propertyid    from eg_pt_owner    where tenantid = $tenantid AND status = 'ACTIVE'    
     group by propertyid)select 
     wsconnection.connectionno as connectionno,
