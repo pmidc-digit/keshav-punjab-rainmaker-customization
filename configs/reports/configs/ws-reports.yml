@@ -34,18 +34,23 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: billnumber
-    label: reports.ws.billnumber
+  - name: collectedby
+    label: reports.ws.collectedby
     type: string
     source: ws
     total: false
-  - name: billdate1
-    label: reports.ws.billdate
+  - name: instrumentdate
+    label: reports.ws.instrumentdate
     type: string
     source: ws
     total: false
-  - name: paidby
-    label: reports.ws.paidby
+  - name: instrumentnumber
+    label: reports.ws.instrumentnumber
+    type: string
+    source: ws
+    total: false    
+  - name: payername
+    label: reports.ws.payername
     type: string
     source: ws
     total: false
@@ -116,13 +121,14 @@ ReportDefinitions:
       bill.consumercode as connectionno,
       usr.mobilenumber as mobileno,
       to_char((To_timestamp(pd.receiptdate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY') as receiptdate1,
-      bill.businessservice as service,
-      billnumber,
-      to_char((To_timestamp(bill.billdate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY') as billdate1,
-      paidby,
+      bill.businessservice as service,   
+      paidby as payername,
       amountpaid,
       paymentmode,
-      paymentstatus,      
+      paymentstatus,
+      instrumentnumber,
+      instrumentdate,
+      usr.username as collectedby,
       payername as ownername1
     from egcl_paymentdetail pd
     inner join egcl_bill as bill on bill.id=pd.billid    
