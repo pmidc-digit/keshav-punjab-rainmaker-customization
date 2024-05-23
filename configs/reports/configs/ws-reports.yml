@@ -2344,18 +2344,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: connectionholdertype
-    label: reports.ws.connectionholdertype
-    type: string
-    source: ws
-    total: false
   - name: applicationstatus
     label: reports.ws.applicationstatus
-    type: string
-    source: ws
-    total: false
-  - name: connectionholder
-    label: reports.ws.connectionholder
     type: string
     source: ws
     total: false
@@ -2364,8 +2354,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: guardianname
-    label: reports.ws.guardianname
+  - name: guardian
+    label: reports.ws.guardian
     type: string
     source: ws
     total: false
@@ -2374,37 +2364,54 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
+  - name: connectionstatus
+    label: reports.ws.connectionstatus
+    type: string
+    source: ws
+    total: false
+  - name: connectiontype
+    label: reports.ws.connectiontype
+    type: string
+    source: ws
+    total: false
+  - name: usage
+    label: reports.ws.usage
+    type: string
+    source: ws
+    total: false
+  - name: subusage
+    label: reports.ws.subusage
+    type: string
+    source: ws
+    total: false
+  - name: connectionexecutiondate
+    label: reports.ws.connectionexecutiondate
+    type: string
+    source: ws
+    total: false
+  - name: connectionholdername
+    label: reports.ws.connectionholdername
+    type: string
+    source: ws
+    total: false        
   query: |
-    with OwnerInfo AS (
-    select split_part(string_agg(userid, ','), ',', 1) AS owneruserid,
-    propertyid
-    from eg_pt_owner
-    where tenantid = $tenantid AND status = 'ACTIVE'
-    group by propertyid
-    ),
-    AddressInfo AS (
-    select split_part(string_agg(locality, ','), ',', 1) AS locality,
-    split_part(string_agg(concat(doorno, ' ', plotno, ' ', buildingname, ' ', street, ' ', city), '|'), '|', 1) AS address,
-    propertyid
-    from eg_pt_address
-    where tenantid = $tenantid
-    group by propertyid
-    )
-    select wsconnection.connectionno,
-    pt.landarea AS plotsize,
+    with OwnerInfo AS (with OwnerInfo AS (    select split_part(string_agg(userid, ','), ',', 1) AS owneruserid,
+    propertyid    from eg_pt_owner    where tenantid = $tenantid AND status = 'ACTIVE'    
+    group by propertyid)select 
+    wsconnection.connectionno as connectionno,
+    pt.propertyid as propertyid,
+    pt.plotsize AS plotsize,
     oldconnectionno,
     applicationno,
-    pt.propertyid as propertyid,
-    ch.connectionholdertype as connectionholdertype,
     wsconnection.applicationstatus as applicationstatus,
-    users.name AS connectionholder,
+    wsconnection.status as connectionstatus,
+    ws.connectiontype as connectiontype,
+    ws.connectionexecutiondate as connectionexecutiondate,
+    pt.propertystatus as propertystatus,
+    pt.propertyusagetype as usage,
+    wsconnection.additionaldetails->>'waterSubUsageType' as subusage,
+    users.name AS connectionholdername, 
     userowner.name AS ownername,
-    userowner.guardian AS guardianname,
-    concat(ai.address, ' ', ai.locality) AS address
-    from eg_ws_connection wsconnection
-    inner JOIN eg_pt_property pt ON pt.propertyid = wsconnection.property_id
-    left OUTER JOIN eg_ws_connectionholder ch ON ch.connectionid = wsconnection.id
-    left OUTER JOIN eg_user users ON ch.userid = users.uuid
-    inner JOIN OwnerInfo oi ON oi.propertyid = pt.id
-    left OUTER JOIN eg_user userowner ON oi.owneruserid = userowner.uuid
-    inner JOIN AddressInfo ai ON ai.propertyid = pt.id;
+    userowner.guardian AS guardian,
+    concat(pt.address, ' ', pt.localityname) AS address from 
+    eg_ws_connection wsconnectioninner JOIN  eg_ws_service ws  ON  wsconnection.id = ws.connection_idinner JOIN report_properties pt ON pt.propertyid = wsconnection.property_idleft OUTER JOIN eg_ws_connectionholder ch ON ch.connectionid = wsconnection.idleft OUTER JOIN eg_user users ON ch.userid = users.uuidinner JOIN OwnerInfo oi ON oi.propertyid = pt.pt_uuidleft OUTER JOIN eg_user userowner ON oi.owneruserid = userowner.uuidwhere wsconnection.tenantid = $tenantid and wsconnection.connectionno is not null and wsconnection.status = 'Active';
