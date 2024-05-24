@@ -2520,3 +2520,190 @@ ReportDefinitions:
     userowner.guardian AS guardianname,
     concat(pt.address, ' ', pt.localityname) AS address from 
     eg_sw_connection swconnection inner JOIN  eg_sw_service sw  ON  swconnection.id = sw.connection_id inner JOIN report_properties pt ON pt.propertyid = swconnection.property_id left OUTER JOIN eg_sw_connectionholder ch ON ch.connectionid = swconnection.id left OUTER JOIN eg_user users ON ch.userid = users.uuid inner JOIN OwnerInfo oi ON oi.propertyid = pt.pt_uuid left OUTER JOIN eg_user userowner ON oi.owneruserid = userowner.uuid where swconnection.tenantid =$tenantid and swconnection.connectionno is not null and swconnection.status = 'Active'
+- reportName: SwDumpReport
+  decryptionPathId: ULBPTDataDumpReport_V2
+  summary: Sw Dump Report
+  version: 1.0.0
+  moduleName: rainmaker-ws
+  additionalConfig:
+    print:
+      pdfPageSize: A1
+  sourceColumns:
+  - name: connectionno
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: plotsize
+    label: reports.ws.plotsize
+    type: string
+    source: ws
+    total: false
+  - name: oldconnectionno
+    label: reports.ws.oldconnectionno
+    type: string
+    source: ws
+    total: false
+  - name: applicationno
+    label: reports.ws.applicationno
+    type: string
+    source: ws
+    total: false
+  - name: propertyid
+    label: reports.ws.propertyid
+    type: string
+    source: ws
+    total: false
+  - name: applicationstatus
+    label: reports.ws.applicationstatus
+    type: string
+    source: ws
+    total: false
+  - name: ownername
+    label: reports.ws.ownername
+    type: string
+    source: ws
+    total: false
+  - name: guardianname
+    label: reports.ws.guardianname
+    type: string
+    source: ws
+    total: false
+  - name: address
+    label: reports.ws.address
+    type: string
+    source: ws
+    total: false
+  - name: connectionstatus
+    label: reports.ws.connectionstatus
+    type: string
+    source: ws
+    total: false
+  - name: connectiontype
+    label: reports.ws.connectiontype
+    type: string
+    source: ws
+    total: false
+  - name: usage
+    label: reports.ws.usage
+    type: string
+    source: ws
+    total: false
+  - name: subusage
+    label: reports.ws.subusage
+    type: string
+    source: ws
+    total: false
+  - name: connectionexecutiondate
+    label: reports.ws.connectionexecutiondate
+    type: string
+    source: ws
+    total: false
+  - name: connectionholdername
+    label: reports.ws.connectionholdername
+    type: string
+    source: ws
+    total: false        
+  query: |
+    with OwnerInfo AS (  select split_part(string_agg(userid, ','), ',', 1) AS owneruserid,
+    propertyid    from eg_pt_owner    where tenantid =$tenantid AND status = 'ACTIVE'    
+    group by propertyid)select 
+    swconnection.connectionno as connectionno,
+    pt.propertyid as propertyid,
+    pt.plotsize AS plotsize,
+    oldconnectionno,
+    applicationno,
+    swconnection.applicationstatus as applicationstatus,
+    swconnection.status as connectionstatus,
+    sw.connectiontype as connectiontype,
+    sw.connectionexecutiondate as connectionexecutiondate,
+    pt.propertystatus as propertystatus,
+    pt.propertyusagetype as usage,
+    swconnection.additionaldetails->>'waterSubUsageType' as subusage,
+    users.name AS connectionholdername, 
+    userowner.name AS ownername,
+    userowner.guardian AS guardianname,
+    concat(pt.address, ' ', pt.localityname) AS address from 
+    eg_sw_connection swconnection inner JOIN  eg_sw_service sw  ON  swconnection.id = sw.connection_id inner JOIN report_properties pt ON pt.propertyid = swconnection.property_id left OUTER JOIN eg_sw_connectionholder ch ON ch.connectionid = swconnection.id left OUTER JOIN eg_user users ON ch.userid = users.uuid inner JOIN OwnerInfo oi ON oi.propertyid = pt.pt_uuid left OUTER JOIN eg_user userowner ON oi.owneruserid = userowner.uuid where swconnection.tenantid =$tenantid and swconnection.connectionno is not null and swconnection.status = 'Active'
+
+- reportName: MeterReadingReport
+  decryptionPathId: ULBPTDataDumpReport_V2
+  summary: Meter Reading Report
+  version: 1.0.0
+  moduleName: rainmaker-ws
+  additionalConfig:
+    print:
+      pdfPageSize: A1
+  sourceColumns:
+  - name: connectionno
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: propertyuid
+    label: reports.ws.propertyuid
+    type: string
+    source: ws
+    total: false
+  - name: propertyusagetype
+    label: reports.ws.propertyusagetype
+    type: string
+    source: ws
+    total: false
+  - name: meterstatus
+    label: reports.ws.meterstatus
+    type: string
+    source: ws
+    total: false
+  - name: lastreading
+    label: reports.ws.lastreading
+    type: string
+    source: ws
+    total: false
+  - name: lastreadingdate
+    label: reports.ws.lastreadingdate
+    type: string
+    source: ws
+    total: false
+  - name: ownername
+    label: reports.ws.ownername
+    type: string
+    source: ws
+    total: false
+  - name: mobileno
+    label: reports.ws.mobileno
+    type: string
+    source: ws
+    total: false
+  - name: locality
+    label: reports.ws.locality
+    type: string
+    source: ws
+    total: false
+  - name: ward
+    label: reports.ws.ward
+    type: string
+    source: ws
+    total: false
+  - name: address
+    label: reports.ws.address
+    type: string
+    source: ws
+    total: false
+  query: |
+    WITH latest_readings AS (SELECT connectionno, MAX(currentreadingdate) AS latest_reading_date FROM     
+    eg_ws_meterreading WHERE tenantid = $tenantid  GROUP BY  
+    connectionno),connection_details AS ( SELECT  b1.connectionno,       
+    b1.property_id, b4.currentreading as lastreading,   
+    b4.currentreadingdate as lastReadingDate,
+    b4.meterstatus FROM eg_ws_connection b1 JOIN
+    eg_pt_property b2 ON b1.property_id = b2.propertyid JOIN
+    eg_ws_service b3 ON b1.id = b3.connection_id JOIN    
+    eg_ws_meterreading b4 ON b1.connectionno = b4.connectionno JOIN   
+    latest_readings lr ON b4.connectionno = lr.connectionno            
+    AND b4.currentreadingdate = lr.latest_reading_date    WHERE    
+    b1.tenantid = 'pb.amritsar' AND b2.tenantid = $tenantid    
+    AND b3.connectiontype = 'Metered' AND b1.status = 'Active')SELECT  
+    c.connectionno,p.propertyid AS propertyuid, p.propertyusagetype, c.meterstatus,  
+    c.lastreading,c.lastReadingDate,  split_part(string_agg(u.name, ','), ',', 1) AS ownername, 
+    split_part(string_agg(u.mobilenumber, ','), ',', 1) AS mobileno, split_part(string_agg(p.localityname, ','), ',', 1) AS locality, split_part(string_agg (p.blockname, ','), ',', 1) AS ward, split_part(string_agg(p.address, ','), ',', 1) AS address FROM report_properties p INNER JOIN connection_details c ON c.property_id = p.propertyid INNER JOIN eg_pt_owner o ON o.propertyid = p.pt_uuid INNER JOIN eg_user u ON u.uuid = o.userid WHERE p.tenantid = $tenantid AND p.propertystatus = 'ACTIVE' GROUP BY p.propertyid,c.connectionno,c.lastreading,c.lastReadingDate,p.propertyusagetype, c.meterstatus;
