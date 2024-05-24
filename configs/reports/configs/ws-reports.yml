@@ -39,8 +39,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: instrumentdate
-    label: reports.ws.instrumentdate
+  - name: transactiondate
+    label: reports.ws.transactiondate
     type: string
     source: ws
     total: false
@@ -127,8 +127,8 @@ ReportDefinitions:
       paymentmode,
       paymentstatus,
       instrumentnumber,
-      instrumentdate,
-      usr.username as collectorname,
+      to_char((To_timestamp(payment.instrumentdate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY') AS transactiondate, 
+     (case when usr.name is null then '30048|21Fj+c3k2ldB0X3AzIh7atXB' else usr.name end)  as collectorname,
       payername as ownername1
     from egcl_paymentdetail pd
     inner join egcl_bill as bill on bill.id=pd.billid    
