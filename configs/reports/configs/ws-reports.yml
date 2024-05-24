@@ -2702,7 +2702,7 @@ ReportDefinitions:
     eg_ws_meterreading b4 ON b1.connectionno = b4.connectionno JOIN   
     latest_readings lr ON b4.connectionno = lr.connectionno            
     AND b4.currentreadingdate = lr.latest_reading_date    WHERE    
-    b1.tenantid = 'pb.amritsar' AND b2.tenantid = $tenantid    
+    b1.tenantid = $tenantid  AND b2.tenantid = $tenantid    
     AND b3.connectiontype = 'Metered' AND b1.status = 'Active')SELECT  
     c.connectionno,p.propertyid AS propertyuid, p.propertyusagetype, c.meterstatus,  
     c.lastreading,c.lastReadingDate,  split_part(string_agg(u.name, ','), ',', 1) AS ownername, 
@@ -2796,3 +2796,77 @@ ReportDefinitions:
     FROM eg_sw_scheduler s2 INNER JOIN CombinedLatestBill b1 ON s2.locality = b1.locality AND s2.billingcyclestartdate = b1.billingcyclestartdate 
     AND s2.billingcycleenddate = b1.billingcycleenddate AND s2.createdtime = b1.createddate WHERE s2.tenantid = $tenantid  AND b1.service_type = 'Sewerage'
     ORDER BY locality, service_type;
+
+- reportName:  SWDemandDetailReport
+  decryptionPathId: ULBPTDataDumpReport_V2
+  summary:  SW Demand Detail Report
+  version: 1.0.0
+  moduleName: rainmaker-ws
+  additionalConfig:
+    print:
+      pdfPageSize: A1
+  sourceColumns:
+  - name: connectionno
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: finyear
+    label: reports.ws.finyear
+    type: string
+    source: ws
+    total: false
+  - name: status
+    label: reports.ws.status
+    type: string
+    source: ws
+    total: false
+  - name: demandupdateddate
+    label: reports.ws.demandupdateddate
+    type: string
+    source: ws
+    total: false
+  - name: taxhead
+    label: reports.ws.taxhead
+    type: string
+    source: ws
+    total: false
+  - name: taxamt
+    label: reports.ws.taxamt
+    type: string
+    source: ws
+    total: false
+  - name: taxamt
+    label: reports.ws.taxamt
+    type: string
+    source: ws
+    total: false
+  - name: taxcoll
+    label: reports.ws.taxcoll
+    type: string
+    source: ws
+    total: false
+  - name: balance
+    label: reports.ws.balance
+    type: string
+    source: ws
+    total: false
+  - name: ispaymentcompleted
+    label: reports.ws.ispaymentcompleted
+    type: string
+    source: ws
+    total: false
+  query: |
+    SELECT 
+    sw.connectionno,
+    COALESCE(to_char((to_timestamp(d.taxperiodfrom/1000) at time zone 'Asia/Kolkata'),'YYYY-MM') || '-' || to_char((to_timestamp(d.taxperiodto/1000) at time zone 'Asia/Kolkata'),'YYYY-MM'), 'N/A') AS Finyear,
+    d.status,
+    to_timestamp(dd.createdtime/1000) at time zone 'Asia/Kolkata' AS DemandUpdateddate,
+    dd.taxheadcode AS taxHead,
+    dd.taxamount AS taxamt,
+    dd.collectionamount AS taxcoll,
+    (dd.taxamount - dd.collectionamount) AS balance,
+    d.ispaymentcompleted
+    FROM eg_sw_connection sw LEFT JOIN egbs_demand_v1 d ON sw.connectionno = d.consumercode AND d.tenantid = $tenantid AND d.businessservice = 'SW' AND d.taxperiodfrom >= '1704000082000' AND d.status != 'CANCELLED'
+    LEFT JOIN egbs_demanddetail_v1 dd ON dd.demandid = d.id WHERE sw.tenantid = $tenantid 
+    ORDER BY sw.connectionno;
