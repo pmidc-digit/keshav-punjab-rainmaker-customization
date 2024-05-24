@@ -2354,8 +2354,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: guardian
-    label: reports.ws.guardian
+  - name: guardianname
+    label: reports.ws.guardianname
     type: string
     source: ws
     total: false
@@ -2412,7 +2412,7 @@ ReportDefinitions:
     wsconnection.additionaldetails->>'waterSubUsageType' as subusage,
     users.name AS connectionholdername, 
     userowner.name AS ownername,
-    userowner.guardian AS guardian,
+    userowner.guardian AS guardianname,
     concat(pt.address, ' ', pt.localityname) AS address from 
     eg_ws_connection wsconnection inner JOIN  eg_ws_service ws  ON  wsconnection.id = ws.connection_id inner JOIN report_properties pt ON pt.propertyid = wsconnection.property_id left OUTER JOIN eg_ws_connectionholder ch ON ch.connectionid = wsconnection.id left OUTER JOIN eg_user users ON ch.userid = users.uuid inner JOIN OwnerInfo oi ON oi.propertyid = pt.pt_uuid left OUTER JOIN eg_user userowner ON oi.owneruserid = userowner.uuid where wsconnection.tenantid =$tenantid and wsconnection.connectionno is not null and wsconnection.status = 'Active'
 - reportName: SwDumpReport
@@ -2459,8 +2459,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: guardian
-    label: reports.ws.guardian
+  - name: guardianname
+    label: reports.ws.guardianname
     type: string
     source: ws
     total: false
@@ -2517,6 +2517,6 @@ ReportDefinitions:
     swconnection.additionaldetails->>'waterSubUsageType' as subusage,
     users.name AS connectionholdername, 
     userowner.name AS ownername,
-    userowner.guardian AS guardian,
+    userowner.guardian AS guardianname,
     concat(pt.address, ' ', pt.localityname) AS address from 
     eg_sw_connection swconnection inner JOIN  eg_sw_service sw  ON  swconnection.id = sw.connection_id inner JOIN report_properties pt ON pt.propertyid = swconnection.property_id left OUTER JOIN eg_sw_connectionholder ch ON ch.connectionid = swconnection.id left OUTER JOIN eg_user users ON ch.userid = users.uuid inner JOIN OwnerInfo oi ON oi.propertyid = pt.pt_uuid left OUTER JOIN eg_user userowner ON oi.owneruserid = userowner.uuid where swconnection.tenantid =$tenantid and swconnection.connectionno is not null and swconnection.status = 'Active'
