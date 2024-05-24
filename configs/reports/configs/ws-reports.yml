@@ -119,7 +119,7 @@ ReportDefinitions:
     select
       receiptnumber as receiptno,
       bill.consumercode as connectionno,
-      usr.mobilenumber as mobileno,
+      usr.mobilenumber as mobilenumber,
       to_char((To_timestamp(pd.receiptdate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY') as receiptdate1,
       bill.businessservice as service,   
       paidby as payername,
