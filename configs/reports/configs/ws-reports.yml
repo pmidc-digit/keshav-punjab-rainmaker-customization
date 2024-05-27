@@ -18,12 +18,7 @@ ReportDefinitions:
     label: reports.ws.connectionno
     type: string
     source: ws
-    total: false       
-  - name: mobileno
-    label: reports.ws.mobileno
-    type: string
-    source: ws
-    total: false   
+    total: false 
   - name: receiptdate1
     label: reports.ws.receiptdate
     type: string
@@ -118,8 +113,7 @@ ReportDefinitions:
     -- Use CTE to force query plan, compute & use CTE later
     select
       receiptnumber as receiptno,
-      bill.consumercode as connectionno,
-      usr.mobilenumber as mobileno,
+      bill.consumercode as connectionno,     
       to_char((To_timestamp(pd.receiptdate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY') as receiptdate1,
       bill.businessservice as service,   
       paidby as payername,
