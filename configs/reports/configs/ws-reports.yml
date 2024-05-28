@@ -2524,77 +2524,72 @@ ReportDefinitions:
       pdfPageSize: A1
   sourceColumns:
   - name: connectionno
-    label: reports.ws.connectionno
+    label: reports.sw.connectionno
     type: string
     source: ws
     total: false
   - name: plotsize
-    label: reports.ws.plotsize
+    label: reports.sw.plotsize
     type: string
     source: ws
     total: false
   - name: oldconnectionno
-    label: reports.ws.oldconnectionno
+    label: reports.sw.oldconnectionno
     type: string
     source: ws
     total: false
   - name: applicationno
-    label: reports.ws.applicationno
+    label: reports.sw.applicationno
     type: string
     source: ws
     total: false
   - name: propertyid
-    label: reports.ws.propertyid
+    label: reports.sw.propertyid
     type: string
     source: ws
     total: false
   - name: applicationstatus
-    label: reports.ws.applicationstatus
+    label: reports.sw.applicationstatus
     type: string
     source: ws
     total: false
   - name: ownername
-    label: reports.ws.ownername
+    label: reports.sw.ownername
     type: string
     source: ws
     total: false
   - name: guardianname
-    label: reports.ws.guardianname
+    label: reports.sw.guardianname
     type: string
     source: ws
     total: false
   - name: address
-    label: reports.ws.address
+    label: reports.sw.address
     type: string
     source: ws
     total: false
   - name: connectionstatus
-    label: reports.ws.connectionstatus
-    type: string
-    source: ws
-    total: false
-  - name: connectiontype
-    label: reports.ws.connectiontype
+    label: reports.sw.connectionstatus
     type: string
     source: ws
     total: false
   - name: usage
-    label: reports.ws.usage
+    label: reports.sw.usage
     type: string
     source: ws
     total: false
   - name: subusage
-    label: reports.ws.subusage
+    label: reports.sw.subusage
     type: string
     source: ws
     total: false
   - name: connectionexecutiondate
-    label: reports.ws.connectionexecutiondate
+    label: reports.sw.connectionexecutiondate
     type: string
     source: ws
     total: false
   - name: connectionholdername
-    label: reports.ws.connectionholdername
+    label: reports.sw.connectionholdername
     type: string
     source: ws
     total: false        
@@ -2609,7 +2604,6 @@ ReportDefinitions:
     applicationno,
     swconnection.applicationstatus as applicationstatus,
     swconnection.status as connectionstatus,
-    sw.connectiontype as connectiontype,
     sw.connectionexecutiondate as connectionexecutiondate,
     pt.propertystatus as propertystatus,
     pt.propertyusagetype as usage,
