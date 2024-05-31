@@ -2679,22 +2679,33 @@ ReportDefinitions:
     source: ws
     total: false
   query: |
-    WITH latest_readings AS (SELECT connectionno, MAX(currentreadingdate) AS latest_reading_date FROM     
-    eg_ws_meterreading WHERE tenantid = $tenantid  GROUP BY  
-    connectionno),connection_details AS ( SELECT  b1.connectionno,       
-    b1.property_id, b4.currentreading as lastreading,   
-    b4.currentreadingdate as lastReadingDate,
-    b4.meterstatus FROM eg_ws_connection b1 JOIN
-    eg_pt_property b2 ON b1.property_id = b2.propertyid JOIN
-    eg_ws_service b3 ON b1.id = b3.connection_id JOIN    
-    eg_ws_meterreading b4 ON b1.connectionno = b4.connectionno JOIN   
-    latest_readings lr ON b4.connectionno = lr.connectionno            
-    AND b4.currentreadingdate = lr.latest_reading_date    WHERE    
-    b1.tenantid = $tenantid  AND b2.tenantid = $tenantid    
-    AND b3.connectiontype = 'Metered' AND b1.status = 'Active')SELECT  
-    c.connectionno,p.propertyid AS propertyuid, p.propertyusagetype, c.meterstatus,  
-    c.lastreading,c.lastReadingDate,  split_part(string_agg(u.name, ','), ',', 1) AS ownername, 
-    split_part(string_agg(u.mobilenumber, ','), ',', 1) AS mobileno, split_part(string_agg(p.localityname, ','), ',', 1) AS locality, split_part(string_agg (p.blockname, ','), ',', 1) AS ward, split_part(string_agg(p.address, ','), ',', 1) AS address FROM report_properties p INNER JOIN connection_details c ON c.property_id = p.propertyid INNER JOIN eg_pt_owner o ON o.propertyid = p.pt_uuid INNER JOIN eg_user u ON u.uuid = o.userid WHERE p.tenantid = $tenantid AND p.propertystatus = 'ACTIVE' GROUP BY p.propertyid,c.connectionno,c.lastreading,c.lastReadingDate,p.propertyusagetype, c.meterstatus;
+    WITH connection_details AS (SELECT b1.connectionno, b1.property_id,b4.currentreading, b4.currentreadingdate 
+    FROM eg_ws_connection b1 JOIN eg_pt_property b2 ON b1.property_id = b2.propertyid
+    JOIN eg_ws_service b3 ON b1.id = b3.connection_id
+    JOIN eg_ws_meterreading b4 ON b1.connectionno = b4.connectionno
+    JOIN (
+    SELECT 
+    connectionno,
+    MAX(currentreadingdate) AS latest_reading_date FROM eg_ws_meterreading WHERE tenantid = $tenantid
+    GROUP BY connectionno
+    ) AS latest_readings ON b4.connectionno = latest_readings.connectionno 
+    AND b4.currentreadingdate = latest_readings.latest_reading_date WHERE b1.tenantid = $tenantid AND b2.tenantid = $tenantid AND b3.connectiontype = 'Metered' AND
+    b1.status = 'Active'
+    ) SELECT
+    c.connectionno ,p.propertyid AS propertyuid,p.usagecategory, c.currentreading, c.currentreadingdate,
+    split_part(string_agg(u.name, ','), ',', 1) AS ownername,
+    split_part(string_agg(u.mobilenumber, ','), ',', 1) AS mobilenumber,
+    split_part(string_agg(a.locality, ','), ',', 1) AS locality,
+    split_part(string_agg(a.doorno, ','), ',', 1) AS doorno,
+    split_part(string_agg(a.buildingname, ','), ',', 1) AS buildingname
+    FROM eg_pt_property p
+    LEFT JOIN eg_pt_document d ON d.entityid = p.id AND d.tenantid = $tenantid
+    INNER JOIN eg_pt_owner o ON o.propertyid = p.id
+    INNER JOIN eg_user u ON u.uuid = o.userid
+    INNER JOIN eg_pt_address a ON a.propertyid = p.id
+    JOIN connection_details c ON c.property_id = p.propertyid
+    WHERE p.tenantid = $tenantid AND p.status = 'ACTIVE'
+    GROUP BY p.propertyid, c.connectionno , c.currentreading, c.currentreadingdate,p.usagecategory
     
 - reportName: BillSchedulerReport
   decryptionPathId: ULBPTDataDumpReport_V2
