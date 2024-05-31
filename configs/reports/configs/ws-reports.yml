@@ -2633,23 +2633,18 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: propertyusagetype
-    label: reports.ws.propertyusagetype
+  - name: usagecategory
+    label: reports.ws.usagecategory
     type: string
     source: ws
     total: false
-  - name: meterstatus
-    label: reports.ws.meterstatus
+  - name: currentreading
+    label: reports.ws.currentreading
     type: string
     source: ws
     total: false
-  - name: lastreading
-    label: reports.ws.lastreading
-    type: string
-    source: ws
-    total: false
-  - name: lastreadingdate
-    label: reports.ws.lastreadingdate
+  - name: currentreadingdate
+    label: reports.ws.currentreadingdate
     type: string
     source: ws
     total: false
@@ -2658,8 +2653,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: mobileno
-    label: reports.ws.mobileno
+  - name: mobilenumber
+    label: reports.ws.mobilenumber
     type: string
     source: ws
     total: false
@@ -2668,13 +2663,13 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: ward
-    label: reports.ws.ward
+  - name: doorno
+    label: reports.ws.doorno
     type: string
     source: ws
     total: false
-  - name: address
-    label: reports.ws.address
+  - name: buildingname
+    label: reports.ws.buildingname
     type: string
     source: ws
     total: false
