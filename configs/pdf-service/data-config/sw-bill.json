@@ -500,14 +500,14 @@
               {
                 "variable": "fromPeriod",
                 "value": {
-                  "path": "$.billDetails.filter((ele) => ele.amount > 0)[0].fromPeriod"
+                  "path": "$.billDetails[$.billDetails.length -1].fromPeriod"
                 },
                 "type": "date"
               },
               {
                 "variable": "toPeriod",
                 "value": {
-                  "path": "$.billDetails[0].filter((ele) => ele.amount > 0)[0].toPeriod"
+                  "path": "$.billDetails[$.billDetails.length -1].toPeriod"
                 },
                 "type": "date"
               },
