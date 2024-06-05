@@ -500,14 +500,14 @@
               {
                 "variable": "fromPeriod",
                 "value": {
-                  "path": "$.billDetails[$.billDetails.length -1].fromPeriod"
+                  "path": "$.billDetails[?(@.amount > 0)].fromPeriod"
                 },
                 "type": "date"
               },
               {
                 "variable": "toPeriod",
                 "value": {
-                  "path": "$.billDetails[$.billDetails.length -1].toPeriod"
+                  "path": "$.billDetails[?(@.amount > 0)].toPeriod"
                 },
                 "type": "date"
               },
