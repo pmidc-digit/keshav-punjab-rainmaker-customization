@@ -2719,7 +2719,7 @@ ReportDefinitions:
     INNER JOIN eg_pt_address a ON a.propertyid = p.id
     JOIN connection_details c ON c.property_id = p.propertyid
     WHERE p.tenantid = $tenantid AND p.status = 'ACTIVE'
-    GROUP BY p.propertyid, c.connectionno , c.currentreading, c.currentreadingdate,p.usagecategory
+  groupby: GROUP BY p.propertyid, c.connectionno , c.currentreading, c.currentreadingdate,p.usagecategory
     
 - reportName: BillSchedulerReport
   decryptionPathId: ULBPTDataDumpReport_V2
