@@ -2706,7 +2706,8 @@ ReportDefinitions:
     AND b4.currentreadingdate = latest_readings.latest_reading_date WHERE b1.tenantid = $tenantid AND b2.tenantid = $tenantid AND b3.connectiontype = 'Metered' AND
     b1.status = 'Active'
     ) SELECT
-    c.connectionno ,p.propertyid AS propertyuid,p.usagecategory, c.currentreading, c.currentreadingdate,
+    c.connectionno ,p.propertyid AS propertyuid,p.usagecategory, c.currentreading,
+    to_char((To_timestamp(c.currentreadingdate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY')  AS currentreadingdate,
     split_part(string_agg(u.name, ','), ',', 1) AS ownername,
     split_part(string_agg(u.mobilenumber, ','), ',', 1) AS mobilenumber,
     split_part(string_agg(a.locality, ','), ',', 1) AS locality,
