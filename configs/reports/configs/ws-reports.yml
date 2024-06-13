@@ -2633,18 +2633,23 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: usagecategory
-    label: reports.ws.usagecategory
+  - name: propertyusagetype
+    label: reports.ws.propertyusagetype
     type: string
     source: ws
     total: false
-  - name: currentreading
-    label: reports.ws.currentreading
+  - name: meterstatus
+    label: reports.ws.meterstatus
     type: string
     source: ws
     total: false
-  - name: currentreadingdate
-    label: reports.ws.currentreadingdate
+  - name: lastreading
+    label: reports.ws.lastreading
+    type: string
+    source: ws
+    total: false
+  - name: lastreadingdate
+    label: reports.ws.lastreadingdate
     type: string
     source: ws
     total: false
@@ -2663,35 +2668,38 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: doorno
-    label: reports.ws.doorno
+  - name: ward
+    label: reports.ws.ward
     type: string
     source: ws
     total: false
-  - name: buildingname
-    label: reports.ws.buildingname
+  - name: address
+    label: reports.ws.address
+    type: string
+    source: ws
+    total: false
+  - name: currentmeterstatus
+    label: reports.ws.currentmeterstatus
+    type: string
+    source: ws
+    total: false
+  - name: currentreading
+    label: reports.ws.currentreading
+    type: string
+    source: ws
+    total: false
+  - name: currentreadingdate
+    label: reports.ws.currentreadingdate
     type: string
     source: ws
     total: false
   searchParams:
-  - name: fromDate
-    label: reports.pt.fromDate
-    type: epoch
-    source: pt
-    isMandatory: false
-    searchClause: AND c.currentreadingdate >= $fromDate
-  - name: toDate
-    label: reports.pt.toDate
-    type: epoch
-    source: pt
-    isMandatory: false
-    searchClause: AND c.currentreadingdate <= $toDate 
   - name: localityArray
     label: reports.pt.zoneList
     type: boundarylist
     source: pt
     isMandatory: false
-    searchClause: AND a.locality IN ($localityArray)
+    searchClause: AND p.localitycode IN ($localityArray)
   query: |
     WITH latest_readings AS (SELECT connectionno,  MAX(currentreadingdate) AS latest_reading_date FROM eg_ws_meterreading WHERE tenantid = $tenantid
     GROUP BY connectionno),
@@ -2703,19 +2711,20 @@ ReportDefinitions:
     AND b4.currentreadingdate = lr.latest_reading_date
     WHERE b1.tenantid = $tenantid AND b2.tenantid = $tenantid
     AND b3.connectiontype = 'Metered' AND b1.status = 'Active')SELECT
-    c.connectionno,
+    c.connectionno as connectionno,
     p.propertyid AS propertyuid,
-    p.propertyusagetype,
-    c.meterstatus,
-    c.lastreading,
-    c.lastReadingDate,
+    p.propertyusagetype as propertyusagetype,
+    c.meterstatus as meterstatus,
+    c.lastreading as lastreading,
+    to_char((To_timestamp(c.lastReadingDate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY') as lastreadingdate,
     split_part(string_agg(u.name, ','), ',', 1) AS ownername,
     split_part(string_agg(u.mobilenumber, ','), ',', 1) AS mobileno,
     split_part(string_agg(p.localityname, ','), ',', 1) AS locality,
     split_part(string_agg(p.blockname, ','), ',', 1) AS ward,
     split_part(string_agg(p.address, ','), ',', 1) AS address,
-    NULL as CurrentMeterStatus,  NULL as CurrentReading,
-    NULL as CurrentReadingDate 
+    NULL as currentmeterstatus,
+    NULL as currentreading,
+    NULL as currentreadingdate 
     FROM report_properties p INNER JOIN connection_details c ON c.property_id = p.propertyid
     INNER JOIN eg_pt_owner o ON o.propertyid = p.pt_uuid
     INNER JOIN eg_user u ON u.uuid = o.userid 
