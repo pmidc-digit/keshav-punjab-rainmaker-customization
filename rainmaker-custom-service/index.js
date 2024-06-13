@@ -20,10 +20,10 @@ app.disable('view cache');
 // https://codepen.io/graphicfreedom/pen/evaBXm
 
 const DEBUG_MODE = Boolean(process.env.DEBUG_MODE) || false;
-const PT_DEMAND_HOST = process.env.PT_DEMAND_HOST
-const EGOV_MDMS_HOST = process.env.EGOV_MDMS_HOST
-const EGOV_BND_LOGIN_URL = process.env.EGOV_BND_LOGIN_URL
-const EGOV_BND_REDIRECT_URL = process.env.EGOV_BND_REDIRECT_URL
+const PT_DEMAND_HOST = process.env.PT_DEMAND_HOST || "https://mseva-uat.lgpunjab.gov.in/"
+const EGOV_MDMS_HOST = process.env.EGOV_MDMS_HOST || "https://mseva-uat.lgpunjab.gov.in/"
+const EGOV_BND_LOGIN_URL = process.env.EGOV_BND_LOGIN_URL || "https://mseva-uat.lgpunjab.gov.in/"
+const EGOV_BND_REDIRECT_URL = process.env.EGOV_BND_REDIRECT_URL || "https://mseva-uat.lgpunjab.gov.in/"
 // const EGOV_BND_API_KEY = process.env.EGOV_BND_API_KEY
 const EGOV_BND_ENCRYPTION_KEY = process.env.EGOV_BND_ENCRYPTION_KEY || "Vol0otuji0X03wSuZGI3zySUzxj7bReQ"
 
@@ -325,6 +325,7 @@ async function updateDemand(demands, RequestInfo) {
 }
 
 function _estimateTaxProcessor(request, response) {
+
     let index = 0;
     for (let calc of request["CalculationCriteria"]) {
         let fireCessPercentage = getFireCessPercentage(calc["property"]["propertyDetails"][0])
@@ -521,12 +522,13 @@ async function _createAndUpdateRequestHandler(req, res) {
         request,
         response
     } = getRequestResponse(req)
-
+console.log("***********Method Start***********")
     let tenantId = request["Properties"][0]["tenantId"]
-
+    console.log("tenantId"+tenantId)
     let fireCessConfig = await getFireCessConfig(tenantId)
     if (fireCessConfig && fireCessConfig.dynamicFirecess && fireCessConfig.dynamicFirecess == true) {
         let updatedResponse = await _createAndUpdateTaxProcessor(request, response)
+            console.log("updatedResponse"+updatedResponse)
         res.json(updatedResponse);
     } else {
         res.json(response)
@@ -559,13 +561,16 @@ router.post('/protected/punjab-pt/pt-calculator-v2/_estimate', asyncMiddleware(a
         request,
         response
     } = getRequestResponse(req)
-
+        console.log("***********protected/punjab-pt/pt-calculator-v2/_estimate start**********")
     let tenantId = request["CalculationCriteria"][0]["tenantId"]
 
     let fireCessConfig = await getFireCessConfig(tenantId)
+    console.log("fireCessConfig"+fireCessConfig)
 
     if (fireCessConfig && fireCessConfig.dynamicFirecess && fireCessConfig.dynamicFirecess == true) {
+
         let updatedResponse = _estimateTaxProcessor(request, response)
+        console.log(updatedResponse)
         res.json(updatedResponse);
     } else {
         res.json(response);
