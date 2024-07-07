@@ -755,7 +755,7 @@
                     },
 		    {
                       "variable": "logoImage",                        
-                      "value":"https://www.pngitem.com/pimgs/m/245-2458910_govt-of-punjab-india-logo-hd-png-download.png",
+                      "value":"$.MdmsRes.tenant.tenants[0].logoId",
                       "type":"image"      
                     },
                     {
