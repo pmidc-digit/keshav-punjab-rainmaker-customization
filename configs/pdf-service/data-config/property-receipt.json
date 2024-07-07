@@ -753,6 +753,11 @@
                       "variable":"email",
                       "value":"$.MdmsRes.tenant.tenants[0].emailId"
                     },
+		    {
+                      "variable": "logoImage",                        
+                      "value":"https://www.pngitem.com/pimgs/m/245-2458910_govt-of-punjab-india-logo-hd-png-download.png",
+                      "type":"image"      
+                    },
                     {
                       "variable": "logo-header",
                       "value":"$.MdmsRes.tenant.tenants[0].code",
