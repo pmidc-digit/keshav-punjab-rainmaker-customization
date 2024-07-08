@@ -155,3 +155,60 @@ SearchDefinitions:
     jsonFormat: {"ResponseInfo": {}}
     outJsonPath: $.data
     responseInfoPath: $.ResponseInfo
+ 
+ 
+ 
+ - name: searchGisMap
+   query:
+    baseQuery: |
+      select array_to_json(array_agg(row_to_json(data))) from (
+        with units as
+        (
+          select
+            propertyuuid,
+            string_agg(occupancytype,',') as occupancy,
+            sum(builtuparea) as builtup_area
+          from report_units
+          where propertyuuid in (select pt_uuid from report_properties where propertystatus='ACTIVE' $where)
+          group by propertyuuid
+          )
+          select 
+            surveyid, 
+            split_part(surveyid,'-',1) as town,
+            split_part(surveyid,'-',2) as sector,
+            split_part(surveyid,'-',3) as subsector,
+            'plot' as plot,
+            rp.tenantid as city,
+            rp.propertyid as property_id,
+            oldpropertyid as oldpropertyid,
+            'uidno' as uid_no,
+            'blockcode' as wardno,
+            builtup_area as builtup_area,
+            plotsize as land_area,
+            'area' as area,
+            nooffloors as no_of_floors,
+            propertyusagetype as usage_category,
+            occupancy as occupancy,
+            ownershipcategory as ownership_category,
+            assessmentyears as financial_year,
+            rpay.amoutpaid as amunt_paid,
+            rpay.receiptdate as date_of_payment
+          from reportproperties rp
+          inner join units ru on rp.pt_uuid=ru.propertyuui
+          inner join report_assessments ra on ra.propertyid=rp.propertyid
+          inner join report_payments rpay on (rpay.propertyid=rp.propertyid and rpay.amoutpaid=ra.amount)
+          where propertystatus='ACTIVE' $where) data
+   groupBy:
+   orderBy:
+   searchParams:
+    condition: AND
+    params:
+    - name: surveyid
+      isMandatory: true
+      jsonPath: $.searchCriteria.plot_map_id
+      operator: =
+    
+   output:
+    jsonFormat: {"ResponseInfo": {}}
+    outJsonPath: $.data
+    responseInfoPath: $.ResponseInfo
