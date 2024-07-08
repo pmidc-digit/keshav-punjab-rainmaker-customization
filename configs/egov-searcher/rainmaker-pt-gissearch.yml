@@ -193,7 +193,7 @@ SearchDefinitions:
             assessmentyears as financial_year,
             rpay.amoutpaid as amunt_paid,
             rpay.receiptdate as date_of_payment
-          from reportproperties rp
+          from report_properties rp
           inner join units ru on rp.pt_uuid=ru.propertyuui
           inner join report_assessments ra on ra.propertyid=rp.propertyid
           inner join report_payments rpay on (rpay.propertyid=rp.propertyid and rpay.amoutpaid=ra.amount)
