@@ -169,7 +169,7 @@ SearchDefinitions:
             string_agg(occupancytype,',') as occupancy,
             sum(builtuparea) as builtup_area
           from report_units
-          where propertyuuid in (select pt_uuid from report_properties where propertystatus='ACTIVE' $where)
+          where propertyuuid in (select pt_uuid from report_properties $where)
           group by propertyuuid
           )
           select 
@@ -197,7 +197,7 @@ SearchDefinitions:
           inner join units ru on rp.pt_uuid=ru.propertyuui
           inner join report_assessments ra on ra.propertyid=rp.propertyid
           inner join report_payments rpay on (rpay.propertyid=rp.propertyid and rpay.amoutpaid=ra.amount)
-          where propertystatus='ACTIVE' $where) data
+          $where) data
     groupBy:
     orderBy:
    searchParams:
