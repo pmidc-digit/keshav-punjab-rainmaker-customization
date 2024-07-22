@@ -173,16 +173,16 @@ SearchDefinitions:
           group by propertyuuid
           )
           select 
-            surveyid, 
-            split_part(surveyid,'-',1) as town,
-            split_part(surveyid,'-',2) as sector,
-            split_part(surveyid,'-',3) as subsector,
-            'plot' as plot,
-            rp.tenantid as city,
+            surveyid as plot_map_id, 
+            upper(split_part(rp.tenantid,'.',2)) as town,
+            split_part(replace(surveyid,upper(split_part(rp.tenantid,'.',2)),''),'-',2) as sector,
+            split_part(surveyid,'-',2) as subsector,
+            split_part(surveyid,'-',2) as plot,
+            split_part(rp.tenantid,'.',2) as city,
             rp.propertyid as property_id,
             oldpropertyid as oldpropertyid,
             'uidno' as uid_no,
-            'blockcode' as wardno,
+            blockname as wardno,
             builtup_area as builtup_area,
             plotsize as land_area,
             'area' as area,
@@ -195,7 +195,7 @@ SearchDefinitions:
             rpay.receiptdate as date_of_payment
           from report_properties rp
           inner join units ru on rp.pt_uuid=ru.propertyuuid
-          inner join report_assessments ra on ra.propertyid=rp.propertyid
+          inner join report_assessments ra on (ra.propertyid=rp.propertyid and ra.demandstatus!='CANCELLED')
           inner join report_payments rpay on (rpay.propertyid=rp.propertyid and rpay.amoutpaid=ra.amount)
           $where) data
     groupBy:
