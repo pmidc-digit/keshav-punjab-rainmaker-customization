@@ -203,14 +203,15 @@ SearchDefinitions:
    searchParams:
     condition: AND
     params:
-    - name: surveyid
-      isMandatory: false
-      jsonPath: $.searchCriteria.plot_map_id
-      operator: =
     - name: rp.tenantid
       isMandatory: false
       jsonPath: $.searchCriteria.town
       operator: =
+    - name: surveyid
+      isMandatory: false
+      jsonPath: $.searchCriteria.plot_map_id
+      operator: =
+    
     
    output:
     jsonFormat: {"ResponseInfo": {}}
