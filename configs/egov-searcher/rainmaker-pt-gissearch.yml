@@ -204,8 +204,12 @@ SearchDefinitions:
     condition: AND
     params:
     - name: surveyid
-      isMandatory: true
+      isMandatory: false
       jsonPath: $.searchCriteria.plot_map_id
+      operator: =
+    - name: rp.tenantid
+      isMandatory: false
+      jsonPath: $.searchCriteria.town
       operator: =
     
    output:
