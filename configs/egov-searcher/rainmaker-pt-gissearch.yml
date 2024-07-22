@@ -204,7 +204,7 @@ SearchDefinitions:
     condition: AND
     params:
     - name: rp.tenantid
-      isMandatory: false
+      isMandatory: true
       jsonPath: $.searchCriteria.town
       operator: =
     - name: surveyid
