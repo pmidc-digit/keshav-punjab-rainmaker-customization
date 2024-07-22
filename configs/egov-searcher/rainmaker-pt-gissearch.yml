@@ -169,7 +169,7 @@ SearchDefinitions:
             string_agg(occupancytype,',') as occupancy,
             sum(builtuparea) as builtup_area
           from report_units
-          where propertyuuid in (select pt_uuid from report_properties $where)
+          where propertyuuid in (select pt_uuid from report_properties rp $where)
           group by propertyuuid
           )
           select 
