@@ -276,7 +276,7 @@
             ],                
             [
               {
-                "text": "Bank Name",
+                "text": "Property ID",
                 "border": [
                   true,
                   false,
@@ -286,7 +286,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{bankName}},{{branchName}}",
+                "text": "{{proPertyid}}",
                 "border": [
                   false,
                   false,
@@ -366,7 +366,7 @@
           {
             "text": [
               {
-                "text": "",
+                "text": "{{}}",
                 "bold": true
               }
             ],
@@ -671,7 +671,7 @@
             ], 
             [
               {
-                "text": "Bank Name",
+                "text": "Property ID",
                 "border": [
                   true,
                   false,
@@ -681,7 +681,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{bankName}},{{branchName}}",
+                "text": "{{proPertyid}}",
                 "border": [
                   false,
                   false,
