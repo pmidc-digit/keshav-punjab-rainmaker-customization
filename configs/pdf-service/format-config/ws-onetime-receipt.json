@@ -276,7 +276,7 @@
             ],                
             [
               {
-                "text": "Property ID",
+                "text": "Bank Name",
                 "border": [
                   true,
                   false,
@@ -286,7 +286,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{proPertyid}}",
+                "text": "{{bankName}},{{branchName}}",
                 "border": [
                   false,
                   false,
@@ -366,7 +366,7 @@
           {
             "text": [
               {
-                "text": "{{commissioner/eo}}",
+                "text": "",
                 "bold": true
               }
             ],
@@ -450,9 +450,9 @@
         "table": {
           "widths": [
             "34%",
-            "16%",
+            "18%",
             "36%",
-            "14%"
+            "12%"
           ],
           "body": [
             [
@@ -671,7 +671,7 @@
             ], 
             [
               {
-                "text": "Property ID",
+                "text": "Bank Name",
                 "border": [
                   true,
                   false,
@@ -681,7 +681,7 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{proPertyid}}",
+                "text": "{{bankName}},{{branchName}}",
                 "border": [
                   false,
                   false,
@@ -761,7 +761,7 @@
           {
             "text": [
               {
-                "text": "{{commissioner/eo}}",
+                "text": "",
                 "bold": true
               }
             ],
