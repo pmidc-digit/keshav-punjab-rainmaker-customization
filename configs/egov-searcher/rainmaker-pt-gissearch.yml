@@ -175,7 +175,7 @@ SearchDefinitions:
           select 
             surveyid as plot_map_id, 
             upper(split_part(rp.tenantid,'.',2)) as town,
-            split_part(replace(surveyid,upper(split_part(rp.tenantid,'.',2)),''),'-',2) as sector,
+            split_part(replace(surveyid,upper(split_part(rp.tenantid,'.',2)),''),'-',1) as sector,
             split_part(surveyid,'-',2) as subsector,
             split_part(surveyid,'-',3) as plot,
             split_part(rp.tenantid,'.',2) as city,
