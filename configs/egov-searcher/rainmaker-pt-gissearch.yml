@@ -177,7 +177,7 @@ SearchDefinitions:
             upper(split_part(rp.tenantid,'.',2)) as town,
             split_part(replace(surveyid,upper(split_part(rp.tenantid,'.',2)),''),'-',2) as sector,
             split_part(surveyid,'-',2) as subsector,
-            split_part(surveyid,'-',2) as plot,
+            split_part(surveyid,'-',3) as plot,
             split_part(rp.tenantid,'.',2) as city,
             rp.propertyid as property_id,
             oldpropertyid as oldpropertyid,
