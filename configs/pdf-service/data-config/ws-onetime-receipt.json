@@ -51,6 +51,18 @@
                 }
               },
               {
+                "variable": "MeterMake",
+                "value": {
+                  "path": "$.meterMake"
+                }
+              },
+              {
+                "variable": "MeterId",
+                "value": {
+                  "path": "$.meterId"
+                }
+              },
+              {
                 "variable": "receiptNo",
                 "value": {
                   "path": "$.paymentDetails[0].receiptNumber"
