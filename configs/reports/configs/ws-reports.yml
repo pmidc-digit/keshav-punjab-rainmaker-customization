@@ -2956,8 +2956,109 @@ ReportDefinitions:
     AND bill.status = 'ACTIVE' AND pd.receiptdate > '1711929599000'
     GROUP BY cd.usage,bill.businessservice,payment.paymentmode
     ORDER BY cd.usage,bill.businessservice,payment.paymentmode
- 
-
-
-
     
+- reportName:  QaurterlyReport
+  summary:  Qaurter Report
+  version: 1.0.0
+  moduleName: rainmaker-ws
+  additionalConfig:
+    print:
+      pdfPageSize: A1
+  sourceColumns:
+  - name: property_id
+    label: reports.ws.property_id
+    type: string
+    source: ws
+    total: false
+  - name: connectionno
+    label: reports.ws.connectionno
+    type: string
+    source: ws
+    total: false
+  - name: connection_status
+    label: reports.ws.connection_status
+    type: string
+    source: ws
+    total: false
+  - name: usagecategory
+    label: reports.ws.usagecategory
+    type: string
+    source: ws
+    total: false
+  - name: plotsize
+    label: reports.ws.plotsize
+    type: string
+    source: ws
+    total: false
+  - name: demandid
+    label: reports.ws.demandid
+    type: string
+    source: ws
+    total: false
+  - name: businessservice
+    label: reports.ws.businessservice
+    type: string
+    source: ws
+    total: false
+  - name: taxperiodfrom
+    label: reports.ws.taxperiodfrom
+    type: string
+    source: ws
+    total: false
+  - name: taxperiodto
+    label: reports.ws.taxperiodto
+    type: string
+    source: ws
+    total: false
+  - name: demand_tenantid
+    label: reports.ws.demand_tenantid
+    type: string
+    source: ws
+    total: false
+  - name: minimumamountpayable
+    label: reports.ws.minimumamountpayable
+    type: string
+    source: ws
+    total: false
+  - name: demand_status
+    label: reports.ws.demand_status
+    type: string
+    source: ws
+    total: false
+  - name: ispaymentcompleted
+    label: reports.ws.ispaymentcompleted
+    type: string
+    source: ws
+    total: false
+  searchParams:
+  - name: quarter
+    label: Quarter
+    type: singlevaluelist
+    pattern: 'list://1704067200000:Q1_2024,1711929600000:Q2_2024,1719792000000:Q3_2024'
+    source: ws
+    isMandatory: true
+    searchClause: AND 1=1
+  query: |
+    SELECT 
+      w.property_id,
+      w.connectionno,
+      w.status AS connection_status,
+      p.usagecategory,
+      p.landarea  As plotsize,
+      d.id  AS demandid , 
+      d.businessservice,
+      d.taxperiodfrom,
+      d.taxperiodto,
+      d.tenantid AS demand_tenantid,
+      d.minimumamountpayable,
+      d.status AS demand_status,
+      d.ispaymentcompleted
+    FROM eg_ws_connection w
+    LEFT JOIN eg_pt_property p ON w.property_id = p.propertyid
+    LEFT JOIN  egbs_demand_v1 d ON (d.consumercode = w.connectionno AND d.businessservice = 'WS' AND d.taxperiodfrom = $quarter AND d.tenantid = $tenantid)
+    WHERE 
+      w.tenantid = $tenantid
+      AND w.status = 'Active'
+      AND w.connectionno IS NOT NULL
+      AND (d.status IS NULL OR d.status != 'CANCELLED')
+      
