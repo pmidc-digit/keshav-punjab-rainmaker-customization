@@ -2625,6 +2625,11 @@ ReportDefinitions:
     type: string
     source: tl
     total: false
+  - name: applicationdate
+    label: report.tl.receipt.applicationdate
+    type: string
+    source: tl
+    total: false    
   searchParams:
   - name: fromDate
     label: reports.tl.fromDate
@@ -2641,6 +2646,7 @@ ReportDefinitions:
   query: |
     SELECT
       tl.applicationnumber as applicationnumber,
+      to_char((To_timestamp(tl.applicationdate / 1000) at time Zone 'Asia/Kolkata'), 'DD/MM/YYYY') as applicationdate,
        propertyid,
        financialyear,
         (case when oldlicensenumber is null then 'New' else 'Renewal' end) AS licensetype,
