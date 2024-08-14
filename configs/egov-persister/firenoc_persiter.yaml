@@ -112,9 +112,9 @@ serviceMaps:
 
           - jsonPath: $.FireNOCs[*][?({id} in @.fireNOCDetails.applicantDetails.owners[*].id)].auditDetails.lastModifiedTime
 
-          - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.uuid
-          
           - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.applicationAssignee
+          
+          - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.uuid
 
        - query: INSERT INTO public.eg_fn_address(uuid, tenantid, doorno, latitude, longitude, buildingname, addressid, addressnumber, type, addressline1, addressline2, landmark, street, city, locality, pincode, detail, firenocdetailsuuid, createdby, lastmodifiedby, createdtime, lastmodifiedtime,areatype,subdistrict) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?);
          basePath: FireNOCs.*.fireNOCDetails.propertyDetails.address
@@ -514,13 +514,13 @@ serviceMaps:
 
           - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.relationship
 
-          - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.uuid
+          - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.applicationAssignee
 
           - jsonPath: $.FireNOCs[*][?({id} in @.fireNOCDetails.applicantDetails.owners[*].id)].auditDetails.lastModifiedBy
 
           - jsonPath: $.FireNOCs[*][?({id} in @.fireNOCDetails.applicantDetails.owners[*].id)].auditDetails.lastModifiedTime
           
-          - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.applicationAssignee
+          - jsonPath: $.FireNOCs.*.fireNOCDetails.applicantDetails.owners.*.uuid
 
        - query: UPDATE eg_fn_address SET doorno =?,street = ?,buildingName = ?, latitude =?, longitude =?, addressid =?, addressnumber =?,locality =?, type =?, addressline1 =?, addressline2 =?, landmark =?, city =?, pincode =?, detail =?,lastmodifiedby =?, lastmodifiedtime =?, areatype=?, subdistrict=? WHERE uuid =?;
          basePath: FireNOCs.*.fireNOCDetails.propertyDetails.address
