@@ -59,7 +59,7 @@
               {
                 "variable": "MeterId",
                 "value": {
-                  "path": "$.meterId"
+                  "path": "$.MeterId"
                 }
               },
               {
