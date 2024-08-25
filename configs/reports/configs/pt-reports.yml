@@ -9678,16 +9678,18 @@ ReportDefinitions:
     source: pt
     wrapper: true
     isMandatory: false
-    searchClause: AND report_owners.tenantid = $ulb    
+    searchClause: AND rp.tenantid = $ulb    
   query: |
       -- Use CTE to force query plan, compute & use CTE later
             SELECT 
-          tenantid,
-          propertyid,
+          rp.tenantid as tenantid,
+          rp.propertyid as propertyid,
           ownername as ownername,
           guardianname as guardianname,       
-          mobilenumber as  mobileno 
-      from  report_owners
+          mobilenumber as  mobileno,
+          rp.propertyusagetype
+      from  report_owners ro
+      inner join report_properties rp on (ro.propertyid=rp.propertyid and propertystatus='ACTIVE')
       where 1=1
 
 - reportName: PropertyListReport
