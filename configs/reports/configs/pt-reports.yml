@@ -9690,7 +9690,7 @@ ReportDefinitions:
           rp.propertyusagetype
       from  report_owners ro
       inner join report_properties rp on (ro.propertyid=rp.propertyid and propertystatus='ACTIVE')
-      where 1=1
+      where 1=1 and rp.propertyusagetype='RESIDENTIAL'
 
 - reportName: PropertyListReport
   decryptionPathId: ULBPTDataDumpReport_V2
