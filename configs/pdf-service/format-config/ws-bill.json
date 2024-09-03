@@ -23,24 +23,27 @@
               {
                 "stack": [
                   {
-                    "text": "{{logo_header}} {{mcGradePwssb}}",
+                    "text": "{{logo_header}} {{mcGrade}}",
                     "style": "receipt-logo-header"
                   },
                   {
                     "stack": [
                       {
-                        "text": "{{address}}"
+                        "text": "{{address}}",
+                        "style": "receipt-logo-sub-header"
                       },                     
                       {
-                        "text": "{{website}}"
+                        "text": "{{website}}",
+                        "style": "receipt-logo-sub-header"
                       },
                       {
-                        "text": "{{email}}"
+                        "text": "{{email}}",
+                        "style": "receipt-logo-sub-header"
                       }
                     ]
                   }
                 ],
-                "alignment": "left",
+                "alignment": "center",
                 "margin": [
                   0,
                   1,
@@ -421,7 +424,7 @@
                     ],
                     [
                       {
-                        "text": "{{usageTypedddddd}}",
+                        "text": "{{usageType}}",
                         "border": [
                           false,
                           false,
@@ -432,7 +435,7 @@
                       },
                       
                       {
-                        "text": "{{mobileNodddd}}",
+                        "text": "{{mobileNo}}",
                         "border": [
                           false,
                           false,
@@ -531,7 +534,7 @@
                         "style": "receipt-table-value2"
                       },
                       {
-                        "text": "{{advanceAvailable_label}}",
+                        "text": "Advance",
                         "border": [
                           false,
                           false,
@@ -714,7 +717,7 @@
             ],
             [
               {
-                "text": "1. Online payment can be done for {{serviceType}} charges payment.  https://mseva.lgpunjab.gov.in/{{logo_header}}{{serviceType}}",
+                "text": "1. Online payment https://mseva.lgpunjab.gov.in/citizen",
                 "border": [
                   true,
                   false,
@@ -731,7 +734,7 @@
             ],
             [
               {
-                "text": "2. If last date of bill is a holiday. Kindly pay your bills either online or offline on next working day to avoid penalty.",
+                "text": "2. If last date of bill is a holiday. Kindly pay your bills either online or offline on previous working day to avoid penalty.",
                 "border": [
                   true,
                   false,
@@ -746,26 +749,10 @@
                 ]
               }
             ],
+          
             [
               {
-                "text": "3. Payment mode available: Cash/Cheque at office counter,Online.",
-                "border": [
-                  true,
-                  false,
-                  true,
-                  false
-                ],
-                "margin": [
-                  4,
-                  0,
-                  0,
-                  0.5
-                ]
-              }
-            ],
-            [
-              {
-                "text": "4. Please bring this bill while making payment at office counter.",
+                "text": "3. Please bring this bill while making payment at office counter during collection hours i.e. 9.00AM to 1:30PM",
                 "border": [
                   true,
                   false,
@@ -782,7 +769,7 @@
             ],
             [
               {
-                "text": "5. {{rate}}% surcharge charges will be applied after due date",
+                "text": "4. 10% surcharge charges will be applied after due date will reflect in next bill",
                 "border": [
                   true,
                   false,
@@ -797,26 +784,10 @@
                 ]
               }
             ],
+           
             [
               {
-                "text": "6. surcharge & late payment charges calculated based on the payment date will reflect in next bill ",
-                "border": [
-                  true,
-                  false,
-                  true,
-                  false
-                ],
-                "margin": [
-                  4,
-                  0,
-                  0,
-                  0.5
-                ]
-              }
-            ],
-            [
-              {
-                "text": "7. Bill Payment collect/recover during office period i.e.09:00AM to 01:30PM. ",
+                "text": "5.To report any financial cybercrime call 1930 immediately or register any cybercrime at www.cybercrime.gov.in . For latest updates on cybercrime, follow official social media handle Cyberdost of Ministry of Home Affairs ",
                 "border": [
                   true,
                   false,
@@ -1025,7 +996,7 @@
       "receipt-logo-header": {
         "color": "#484848",
         "fontFamily": "Roboto",
-        "fontSize": 8,
+        "fontSize": 12,
         "bold": true,
         "letterSpacing": 0.74,
         "margin": [
@@ -1038,7 +1009,7 @@
       "receipt-logo-sub-header": {
         "color": "#484848",
         "fontFamily": "Roboto",
-        "fontSize": 12,
+        "fontSize": 10,
         "letterSpacing": 0.6
       },
       "noc-table": {
@@ -1176,7 +1147,7 @@
       },
       "amount-due": {
         "fontSize": 20,
-        "color": "#FC8019",
+        "color": "#000000",
         "bold": true,
         "fontWeight": 700
       },
