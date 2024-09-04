@@ -390,15 +390,14 @@
         "style": "receipt-down-footer"
       },
       {
-        "text": "This is a computer generated document, Hence requires no signature.test",
+        "image": "{{footerLogoImage}}",
         "width": 75,
         "height": 10,
-        "bold": true,
         "alignment": "center",
         "margin": [
-          -12,
+            0,
           -10,
-          -230,
+           0,
           0
         ]
       }
