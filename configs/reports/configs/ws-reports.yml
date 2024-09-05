@@ -1838,8 +1838,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: true
-  - name: catergory
-    label: reports.ws.catergory
+  - name: category
+    label: reports.ws.category
     type: string
     source: ws
     total: false
