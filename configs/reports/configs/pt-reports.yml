@@ -6294,26 +6294,6 @@ ReportDefinitions:
     type: string
     source: pt
     total: false
-  - name: ownershipcategory
-    label: reports.pt.ownershipcategory
-    type: string
-    source: pt
-    total: false
-  - name: usagetype
-    label: reports.pt.usagetype
-    type: string
-    source: pt
-    total: false
-  - name: localityname
-    label: reports.pt.localityname
-    type: string
-    source: pt
-    total: false
-  - name: block
-    label: reports.pt.block
-    type: string
-    source: pt
-    total: false
   searchParams:
   - name: fromDate
     label: reports.pt.fromDate
@@ -6375,14 +6355,14 @@ ReportDefinitions:
         asmt.interest as interest,
         asmt.exemption as exemption,
         asmt.roundoff as adjustment,
-        (case when rp.collectedby is null then '30048|21Fj+c3k2ldB0X3AzIh7atXB' else rp.collectedby end) as collectorname,
-        p.ownershipcategory as ownershipcategory,
-        p.propertyusagetype as usagetype,
-        p.localityname as localityname,
-        p.blockcode as block
+        (case when rp.collectedby is null then '30048|21Fj+c3k2ldB0X3AzIh7atXB' else rp.collectedby end) as collectorname    --,
+        --p.ownershipcategory as ownershipcategory,
+        --p.propertyusagetype as usagetype,
+        --p.localityname as localityname,
+        --p.blockcode as block
       from report_payments as rp
       inner join assessments as asmt on  asmt.billid = rp.billid -- asmt.billid like concat('%',rp.billid,'%')
-      inner join report_properties p on (p.propertyid=rp.propertyid and p.propertystatus='ACTIVE')
+      --inner join report_properties p on (p.propertyid=rp.propertyid and p.propertystatus='ACTIVE')
       where rp.paymentstatus!='CANCELLED' and rp.tenantid=$tenantid
   orderby: order by receiptnumber
   
