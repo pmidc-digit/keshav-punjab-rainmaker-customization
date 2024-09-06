@@ -29,7 +29,7 @@
                             {
                                 "stack": [
                                     {
-                                        "text": "{{tenantName}} - {{UAT}}",
+                                        "text": "{{tenantName}}",
                                         "style": "receipt-logo-header",
                                         "margin": [
                                             0,
