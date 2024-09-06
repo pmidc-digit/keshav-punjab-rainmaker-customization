@@ -1838,8 +1838,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: true
-  - name: catergory
-    label: reports.ws.catergory
+  - name: category
+    label: reports.ws.category
     type: string
     source: ws
     total: false
@@ -1862,8 +1862,16 @@ ReportDefinitions:
     isMandatory: true
     searchClause: AND ws.createdtime<= $toDate
   query: |
-    select count(*) as no_of_applications, pt.usagecategory as catergory,
-    ws.status as water_status  from eg_ws_connection ws, eg_pt_property pt  where ws.property_id=pt.propertyid
+    SELECT 
+    COUNT(*) AS no_of_applications, 
+    pt.usagecategory AS category,
+    ws.status AS water_status  
+    FROM 
+       eg_ws_connection ws
+    JOIN 
+       eg_pt_property pt ON ws.property_id = pt.propertyid
+    WHERE 
+    ws.property_id=pt.propertyid
     and ws.createdtime>=$fromDate
     and ws.createdtime<=$toDate
     and ws.tenantid=$tenantid
