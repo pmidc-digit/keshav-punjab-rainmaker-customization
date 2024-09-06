@@ -3062,7 +3062,7 @@ ReportDefinitions:
         --concat(to_char((To_timestamp(get_fromperiod(pd.billid)/1000) at time Zone 'Asia/Kolkata'),'YYYY'),'-', to_char((To_timestamp(get_toperiod(pd.billid)/1000) at time Zone 'Asia/Kolkata'),'YY')) as financialyear
       FROM egcl_paymentdetail pd Left outer join eg_user on eg_user.id = pd.createdby::INTEGER, egcl_payment payment, eg_pt_property as pt, egcl_bill bill
       where pd.paymentid=payment.id and bill.id=pd.billid and payment.paymentstatus != 'CANCELLED' and pd.businessservice='PT' and payment.tenantid!='pb.testing'
-      and pt.propertyid = bill.consumercode and bill.status!='INACTIVE' 
+      and pt.propertyid = bill.consumercode and pt.status!='INACTIVE' 
   groupby: GROUP BY payment.tenantid 
   orderby: ORDER BY payment.tenantid, totalamountpaid DESC NULLS LAST
   
