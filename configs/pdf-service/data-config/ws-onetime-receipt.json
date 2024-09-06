@@ -26,6 +26,12 @@
                 }
               },
               {
+                "variable": "proPertyid",
+                "value": {
+                  "path": "$.propertyid"
+                }
+              },
+              {
                 "variable": "ADdress",
                 "value": {
                   "path": "$.address"
@@ -42,6 +48,18 @@
                 "variable": "payerContact",
                 "value": {
                   "path": "$.mobileNumber"
+                }
+              },
+              {
+                "variable": "MeterMake",
+                "value": {
+                  "path": "$.meterMake"
+                }
+              },
+              {
+                "variable": "MeterId",
+                "value": {
+                  "path": "$.MeterId"
                 }
               },
               {

@@ -190,7 +190,7 @@
             ],
             [
               {
-                "text": "Chq/DD/PO/Txn Date",
+                "text": "Chq/DD/PO/Txn No",
                 "border": [
                   true,
                   false,
@@ -231,10 +231,10 @@
                 
               }
             ],
-                        
+           
             [
               {
-                "text": "Bank Name",
+                "text": "Meter Make",
                 "border": [
                   true,
                   false,
@@ -244,7 +244,50 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{bankName}},{{branchName}}",
+                "text": "{{MeterMake}}",
+                "border": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "style": "receipt-table"
+              },
+              {
+                "text": "Meter No",
+                "border": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "style": "receipt-table-value"
+              },
+              {
+                "text": "{{MeterId}}",
+                "border": [
+                  false,
+                  false,
+                  true,
+                  false
+                ],
+                "style": "receipt-table"
+
+              }
+            ],               
+            [
+              {
+                "text": "Property ID",
+                "border": [
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                "style": "receipt-table-value"
+              },
+              {
+                "text": "{{proPertyid}}",
                 "border": [
                   false,
                   false,
@@ -295,7 +338,10 @@
                   false
                 ],
                 "style": "receipt-table"
-              },
+              }
+              
+            ],
+            [
               {
                 "text": "Address",
                 "border": [
@@ -304,7 +350,7 @@
                   false,
                   false
                 ],
-                "style": "receipt-table-value"
+                "style": "receipt-table-valueone"
               },
               {
                 "text": "{{ADdress}}",
@@ -314,7 +360,7 @@
                   true,
                   false
                 ],
-                "style": "receipt-table"
+                "style": "receipt-tableone"
 
               }
             ]
@@ -367,7 +413,7 @@
           {
             "text": [
               {
-                "text": "{{commissioner/eo}}",
+                "text": "",
                 "bold": true
               }
             ],
@@ -451,9 +497,9 @@
         "table": {
           "widths": [
             "34%",
-            "16%",
+            "18%",
             "36%",
-            "14%"
+            "12%"
           ],
           "body": [
             [
@@ -586,7 +632,7 @@
             ],
             [
               {
-                "text": "Chq/DD/PO/Txn Date",
+                "text": "Chq/DD/PO/Txn No",
                 "border": [
                   true,
                   false,
@@ -627,10 +673,10 @@
                 
               }
             ],  
-          
+         
             [
               {
-                "text": "Bank Name",
+                "text": "Meter Make",
                 "border": [
                   true,
                   false,
@@ -640,7 +686,50 @@
                 "style": "receipt-table-value"
               },
               {
-                "text": "{{bankName}},{{branchName}}",
+                "text": "{{MeterMake}}",
+                "border": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "style": "receipt-table"
+              },
+              {
+                "text": "Meter No",
+                "border": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "style": "receipt-table-value"
+              },
+              {
+                "text": "{{MeterId}}",
+                "border": [
+                  false,
+                  false,
+                  true,
+                  false
+                ],
+                "style": "receipt-table"
+
+              }
+            ], 
+            [
+              {
+                "text": "Property ID",
+                "border": [
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                "style": "receipt-table-value"
+              },
+              {
+                "text": "{{proPertyid}}",
                 "border": [
                   false,
                   false,
@@ -692,29 +781,31 @@
                 ],
                 "style": "receipt-table"
               }
-              
+             
             ],
-            [{
-              "text": "Address",
-              "border": [
-                false,
-                false,
-                false,
-                false
-              ],
-              "style": "receipt-table-value"
-            },
-            {
-              "text": "{{ADdress}}",
-              "border": [
-                false,
-                false,
-                true,
-                false
-              ],
-              "style": "receipt-table"
+            [
+              {
+                "text": "Address",
+                "border": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "style": "receipt-table-value"
+              },
+              {
+                "text": "{{ADdress}}",
+                "border": [
+                  false,
+                  false,
+                  true,
+                  false
+                ],
+                "style": "receipt-table"
 
-            }]
+              }
+            ]
             
           ]
         },
@@ -764,7 +855,7 @@
           {
             "text": [
               {
-                "text": "{{commissioner/eo}}",
+                "text": "",
                 "bold": true
               }
             ],
@@ -861,7 +952,19 @@
         "color": "#000000",
         "bold": true,
         "fontSize": 10,
-        "fontWeight": 300,
+        "fontWeight": 500,
+        "margin": [
+          8,
+          0,
+          0,
+          0
+        ]
+      },
+      "receipt-table-valueone":{
+        "color": "#000000",
+        "bold": true,
+        "fontSize": 10,
+        "fontWeight": 100,
         "margin": [
           8,
           0,
@@ -885,9 +988,21 @@
         "color": "#000000",
         "bold": false,
         "fontSize": 10,
-        "fontWeight": 200,
+        "fontWeight": 400,
         "margin": [
           -30,
+          0,
+          0,
+          0
+        ]
+      },
+      "receipt-tableone":{
+        "color": "#000000",
+        "bold": false,
+        "fontSize": 10,
+        "fontWeight": 200,
+        "margin": [
+          -10,
           0,
           0,
           0
