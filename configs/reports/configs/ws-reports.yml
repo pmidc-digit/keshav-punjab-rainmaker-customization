@@ -2163,17 +2163,17 @@ ReportDefinitions:
     label: reports.ws.name
     type: string
     source: ws
-    total: true
+    total: false
   - name: mobilenumber
     label: reports.ws.mobilenumber
     type: string
     source: ws
     total: false
   query: |
-    SELECT ws.connectionno, 
+    SELECT ws.connectionno as consumercode , 
        pt.usagecategory as usagecat, 
        users.name as name, 
-       users.mobilenumber, 
+       users.mobilenumber as mobilenumber, 
        CONCAT_WS(', ', addd.buildingname, addd.doorno, addd.street, addd.plotno, addd.landmark) AS full_address FROM eg_ws_connection AS ws
        JOIN eg_pt_property AS pt ON ws.property_id = pt.propertyid
     JOIN eg_ws_connectionholder AS conn ON ws.id = conn.connectionid
