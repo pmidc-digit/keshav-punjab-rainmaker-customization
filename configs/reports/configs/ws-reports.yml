@@ -1954,21 +1954,6 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: tax_period_from_date
-    label: reports.ws.tax_period_from_date
-    type: string
-    source: ws
-    total: false
-  - name: total_demand_amount
-    label: reports.ws.total_demand_amount
-    type: string
-    source: ws
-    total: true
-  - name: total_collected_amount
-    label: reports.ws.total_collected_amount
-    type: string
-    source: ws
-    total: true
   - name: distinct_consumercode_count
     label: reports.ws.distinct_consumercode_count
     type: string
@@ -1989,39 +1974,36 @@ ReportDefinitions:
   query: |
     WITH quarterly_data AS (
     SELECT
-    EXTRACT(YEAR FROM to_timestamp(d1.taxperiodfrom / 1000)) AS year,
-    CASE
-        WHEN EXTRACT(MONTH FROM to_timestamp(d1.taxperiodfrom / 1000)) = 04 THEN 'Quarter 1'
-        WHEN EXTRACT(MONTH FROM to_timestamp(d1.taxperiodfrom / 1000)) = 07 THEN 'Quarter 2'
-        WHEN EXTRACT(MONTH FROM to_timestamp(d1.taxperiodfrom / 1000)) = 10 THEN 'Quarter 3'
-        WHEN EXTRACT(MONTH FROM to_timestamp(d1.taxperiodfrom / 1000)) = 01 THEN 'Quarter 4'
-    END AS quarter,
-    to_char(to_timestamp(d1.taxperiodfrom / 1000), 'YYYY-MM-DD') AS tax_period_from_date,
-    COUNT(DISTINCT d1.consumercode) AS distinct_consumercode_count,
-    SUM(d2.taxamount) AS total_demand_amount,
-    SUM(d2.collectionamount) AS total_collected_amount,d5.usagecategory AS UsageType
+        EXTRACT(YEAR FROM to_timestamp(d1.taxperiodfrom / 1000)) AS year,
+        CASE
+            WHEN EXTRACT(MONTH FROM to_timestamp(d1.taxperiodfrom / 1000)) BETWEEN 4 AND 6 THEN 'Quarter 1'
+            WHEN EXTRACT(MONTH FROM to_timestamp(d1.taxperiodfrom / 1000)) BETWEEN 7 AND 9 THEN 'Quarter 2'
+            WHEN EXTRACT(MONTH FROM to_timestamp(d1.taxperiodfrom / 1000)) BETWEEN 10 AND 12 THEN 'Quarter 3'
+            ELSE 'Quarter 4'
+        END AS quarter,
+        COUNT(DISTINCT d1.consumercode) AS distinct_consumercode_count,
+        d5.usagecategory AS UsageType
     FROM
         egbs_demand_v1 d1
-        LEFT JOIN egbs_demanddetail_v1 d2 ON d1.id = d2.demandid
-        LEFT JOIN eg_sw_connection d4 ON d4.connectionno = d1.consumercode
-        LEFT JOIN eg_pt_property  d5 ON d4.property_id = d5.propertyid 
-    WHERE  d1.taxperiodfrom >= $fromDate
-    AND  d1.businessservice = 'SW'
+    LEFT JOIN eg_sw_connection d4 ON d4.connectionno = d1.consumercode
+    LEFT JOIN eg_sw_service ser ON d4.id = ser.connection_id
+    LEFT JOIN eg_pt_property d5 ON d4.property_id = d5.propertyid
+    WHERE d1.taxperiodfrom >= $fromDate
     AND d1.tenantid = $tenantid
-    AND d1.status !='CANCELLED'
+      AND d1.status != 'CANCELLED'
+      AND d1.businessservice = 'SW' and ser.connectiontype!='Metered'
+      AND d5.usagecategory IS NOT NULL
     GROUP BY
-        year, quarter, tax_period_from_date,UsageType
+        year, quarter, ser.connectiontype, d5.usagecategory
     )
 
     SELECT
-     year || '->' || quarter AS quarter,
-     tax_period_from_date,
-     COALESCE(CAST(total_demand_amount AS TEXT), 'No Tax amount') AS total_demand_amount,
-     COALESCE(CAST(total_collected_amount AS TEXT), 'No Collection Amount') AS total_collected_amount,
-     COALESCE(CAST(distinct_consumercode_count AS TEXT), '0') AS distinct_consumercode_count,
-     UsageType
+        year || '->' || quarter AS quarter,
+        COALESCE(CAST(distinct_consumercode_count AS TEXT), '0') AS distinct_consumercode_count,
+        UsageType
     FROM
-    quarterly_data where 1=1     
+        quarterly_data
+     where 1=1     
 
 - reportName: Connectioncountreport
   summary: Connection Count  Report
