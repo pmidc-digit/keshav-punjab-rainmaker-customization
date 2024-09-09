@@ -2170,7 +2170,7 @@ ReportDefinitions:
     source: ws
     total: false
   query: |
-    SELECT ws.consumercode, 
+    SELECT ws.connectionno, 
        pt.usagecategory as usagecat, 
        users.name as name, 
        users.mobilenumber, 
