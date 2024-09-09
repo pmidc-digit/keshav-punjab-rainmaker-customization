@@ -2104,26 +2104,42 @@ ReportDefinitions:
     source: ws
     total: true   
   query: |
-    -- Use CTE to force query plan, compute & use CTE later
-    select  a.*, b.*, d.*,e.*,g.*,h.*,i.*, j.*,k.*,l.*,m.*,n.*,o.*,p.*,q.*,r.*,s.*  from
-    (select  count (*) as totalwaterconnections from eg_ws_connection where tenantid=$tenantid)a,
-    (select  count (*)  as totalsewerageconnections from eg_sw_connection where tenantid=$tenantid)b,
-    (select   count (*) as totalwateractive from eg_ws_connection where status='Active' and tenantid=$tenantid)d,
-    (select  count (*) as totalsewerageactive from eg_sw_connection where status='Active' and tenantid=$tenantid)e,
-    (select  count (*) as totalactiveresidentialinwater from eg_ws_connection where property_id in (select propertyid from eg_pt_property where status IN('ACTIVE','PENDINGWS') and usagecategory in ('RESIDENTIAL') and tenantid=$tenantid) and status='Active' and tenantid=$tenantid)g,
-    (select   count (*) as totalactiveresidentialinsewerage from eg_sw_connection where property_id in (select propertyid from eg_pt_property where status IN ('ACTIVE','PENDINGWS') and usagecategory in ('RESIDENTIAL') and tenantid=$tenantid ) and status='Active' and tenantid=$tenantid)h, 
-    (select  count (*) as totalactivenonresidentialinsewerage from eg_sw_connection where property_id in (select propertyid from eg_pt_property where status IN ('ACTIVE','PENDINGWS') and usagecategory like  ('NONRESIDENTIAL%') and tenantid=$tenantid) and status='Active' and tenantid=$tenantid)i,
-    (select count  (*) as totalactivenonresidentialinwater from eg_ws_connection where property_id in (select propertyid from eg_pt_property where status IN ('ACTIVE','PENDINGWS') and usagecategory like ('NONRESIDENTIAL%') and tenantid=$tenantid) and status='Active' and tenantid=$tenantid)j,
-    (select  count (*) as totalmeteredconnections from eg_ws_connection , eg_ws_service where  id = connection_id  and connectiontype = 'Metered' and status='Active'  and tenantid=$tenantid)k,
-    (select count  (*) as totalexemptedinwater from eg_ws_connection where property_id in (select propertyid from eg_pt_property where landarea between 0 and 125 and status IN ('ACTIVE','PENDINGWS') and usagecategory='RESIDENTIAL' and tenantid=$tenantid)and status='Active' and tenantid=$tenantid)l,
-    (select  count (*) as totalexemptedinsewerage from eg_sw_connection where property_id in (select propertyid from eg_pt_property where landarea between  0 and 125 and status IN ('ACTIVE','PENDINGWS') and usagecategory='RESIDENTIAL'and tenantid=$tenantid)and status='Active' and tenantid=$tenantid)m,
-    (select  count (*) as betweenfivemarlawater from eg_ws_connection where property_id in (select propertyid from eg_pt_property where landarea between 0 and 125 and status IN ('ACTIVE','PENDINGWS') and tenantid=$tenantid )and status='Active' and tenantid=$tenantid)n,
-    (select count (*)  as betweenfivemarlasewerage from eg_sw_connection where property_id in (select propertyid from eg_pt_property where landarea between  0 and 125 and status IN ('ACTIVE','PENDINGWS') and tenantid=$tenantid )and status='Active' and tenantid=$tenantid)o,
-    (select count  (*) as betweensixmarlawater from eg_ws_connection where property_id in (select propertyid from eg_pt_property where landarea between 126 and 250 and status IN ('ACTIVE','PENDINGWS') and tenantid=$tenantid)and status='Active' and tenantid=$tenantid)p,
-    (select  count  (*) as betweensixandtenmarlasewerage from eg_sw_connection where property_id in (select propertyid from eg_pt_property where landarea between  126 and 250 and status='ACTIVE' and tenantid=$tenantid)and status='Active' and tenantid=$tenantid)q,
-    (select  count  (*)  as morethantenmarlawater from eg_ws_connection where property_id in (select propertyid from eg_pt_property where landarea>=251 and status IN ('ACTIVE','PENDINGWS') and tenantid=$tenantid)and status='Active' and tenantid=$tenantid)r,
-    (select count (*)  as morethantenmarlasewerage from eg_sw_connection where property_id in (select propertyid from eg_pt_property where landarea>=251 and status IN ('ACTIVE','PENDINGWS') and tenantid=$tenantid) and status='Active' and tenantid=$tenantid)s;
+    WITH connection_data AS (
+    SELECT
+        ws.connectionno,
+        ws.property_id,
+        ws.status AS water_status,
+        sw.status AS sewerage_status,
+        ws.tenantid,
+        prop.usagecategory,
+        prop.landarea,
+        prop.status AS property_status,
+        ws_service.connectiontype
+    FROM eg_ws_connection ws
+    LEFT JOIN eg_sw_connection sw ON ws.property_id = sw.property_id AND sw.tenantid = ws.tenantid
+    LEFT JOIN eg_pt_property prop ON ws.property_id = prop.propertyid AND prop.tenantid = ws.tenantid
+    LEFT JOIN eg_ws_service ws_service ON ws.id = ws_service.connection_id
+    WHERE ws.tenantid = $tenantid )
 
+    SELECT
+        (SELECT COUNT(*) FROM connection_data) AS totalwaterconnections,
+        (SELECT COUNT(*) FROM eg_sw_connection WHERE tenantid = $tenantid) AS totalsewerageconnections,
+        (SELECT COUNT(*) FROM connection_data WHERE water_status = 'Active') AS totalwateractive,
+        (SELECT COUNT(*) FROM eg_sw_connection WHERE status = 'Active' AND tenantid = $tenantid) AS totalsewerageactive,
+        (SELECT COUNT(*) FROM connection_data WHERE water_status = 'Active' AND property_status IN ('ACTIVE', 'PENDINGWS') AND usagecategory = 'RESIDENTIAL') AS totalactiveresidentialinwater,
+        (SELECT COUNT(*) FROM connection_data WHERE sewerage_status = 'Active' AND property_status IN ('ACTIVE', 'PENDINGWS') AND usagecategory = 'RESIDENTIAL') AS totalactiveresidentialinsewerage,
+        (SELECT COUNT(*) FROM connection_data WHERE sewerage_status = 'Active' AND property_status IN ('ACTIVE', 'PENDINGWS') AND usagecategory LIKE 'NONRESIDENTIAL%') AS totalactivenonresidentialinsewerage,
+        (SELECT COUNT(*) FROM connection_data WHERE water_status = 'Active' AND property_status IN ('ACTIVE', 'PENDINGWS') AND usagecategory LIKE 'NONRESIDENTIAL%') AS totalactivenonresidentialinwater,
+        (SELECT COUNT(*) FROM connection_data WHERE connectiontype = 'Metered' AND water_status = 'Active') AS totalmeteredconnections,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea BETWEEN 0 AND 125 AND usagecategory = 'RESIDENTIAL' AND water_status = 'Active') AS totalexemptedinwater,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea BETWEEN 0 AND 125 AND usagecategory = 'RESIDENTIAL' AND sewerage_status = 'Active') AS totalexemptedinsewerage,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea BETWEEN 0 AND 125 AND water_status = 'Active') AS betweenfivemarlawater,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea BETWEEN 0 AND 125 AND sewerage_status = 'Active') AS betweenfivemarlasewerage,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea BETWEEN 126 AND 250 AND water_status = 'Active') AS betweensixmarlawater,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea BETWEEN 126 AND 250 AND sewerage_status = 'Active') AS betweensixandtenmarlasewerage,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea >= 251 AND water_status = 'Active') AS morethantenmarlawater,
+        (SELECT COUNT(*) FROM connection_data WHERE landarea >= 251 AND sewerage_status = 'Active') AS morethantenmarlasewerage
+        
 - reportName: WsDefaulterReport
   summary: Ws Defaulter Report
   version: 1.0.0
