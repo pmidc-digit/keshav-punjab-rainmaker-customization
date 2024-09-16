@@ -94,7 +94,7 @@ SearchDefinitions:
             INNER JOIN egcl_paymentdetail as pd on pd.billid = bd.billid
             INNER JOIN egcl_payment as payment on pd.paymentid=payment.id
             left outer join eg_pg_transactions t on t.bill_id=pd.billid
-            $where and payment.paymentstatus != 'CANCELLED'
+            $where and payment.paymentstatus != 'CANCELLED' and t.txn_status = 'SUCCESS'
             GROUP BY pd.receiptnumber,pd.businessservice,pd.amountpaid,pd.tenantid,
             payment.paymentmode,t.mobile_number,payment.transactionnumber,
             bill.consumercode,payment.paidby,bad.taxheadcode
