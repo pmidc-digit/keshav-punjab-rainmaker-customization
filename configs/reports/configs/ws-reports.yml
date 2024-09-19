@@ -2159,8 +2159,23 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: full_address
-    label: reports.ws.full_address
+  - name: zonename
+    label: reports.ws.zonename
+    type: string
+    source: ws
+    total: false
+  - name: propertyid
+    label: reports.ws.propertyid
+    type: string
+    source: ws
+    total: false
+  - name: address
+    label: reports.ws.address
+    type: string
+    source: ws
+    total: false
+  - name: blockname
+    label: reports.ws.blockname
     type: string
     source: ws
     total: false
@@ -2168,33 +2183,38 @@ ReportDefinitions:
     label: reports.ws.total_tax_amount
     type: string
     source: ws
-    total: false
+    total: true
   query: |
+    WITH demand_summary AS (
+        SELECT 
+            consumercode, 
+            SUM(minimumamountpayable) AS total_tax_amount
+        FROM 
+            egbs_demand_v1
+        WHERE 
+            businessservice = 'WS'
+            AND tenantid =  $tenantid
+            AND ispaymentcompleted = 'false'
+            AND status = 'ACTIVE'
+            AND minimumamountpayable != 0
+        GROUP BY 
+            consumercode
+    )
     SELECT 
-    ws.connectionno AS consumercode, 
-    pt.usagecategory AS usagecat, 
-    CONCAT_WS(', ', addd.buildingname, addd.doorno, addd.street, addd.plotno, addd.landmark) AS full_address,
-    SUM(demand.minimumamountpayable) AS total_tax_amount
+        ws.connectionno AS consumercode, 
+        addd.propertyusagetype AS usagecat, 
+        addd.zonename,
+        addd.propertyid,
+        addd.address,
+        addd.blockname,
+        SUM(demand_summary.total_tax_amount) AS total_tax_amount
     FROM 
-        egbs_demand_v1 AS demand
+        (SELECT DISTINCT connectionno, property_id FROM eg_ws_connection) AS ws
     JOIN 
-        eg_ws_connection AS ws ON demand.consumercode = ws.connectionno
+        demand_summary ON ws.connectionno = demand_summary.consumercode
     JOIN 
-        eg_pt_property AS pt ON ws.property_id = pt.propertyid
-    JOIN 
-        eg_ws_connectionholder AS conn ON ws.id = conn.connectionid
-    JOIN 
-        eg_user AS users ON conn.userid = users.uuid
-    JOIN 
-        eg_pt_address AS addd ON pt.id = addd.propertyid
-    WHERE 
-        demand.businessservice = 'WS'
-        AND demand.tenantid = $tenantid
-        AND demand.ispaymentcompleted = 'false'
-        AND demand.status = 'ACTIVE'
-        AND demand.minimumamountpayable != 0
-    GROUP BY 
-        ws.connectionno, pt.usagecategory, addd.buildingname, addd.doorno, addd.street, addd.plotno, addd.landmark
+        report_properties AS addd ON ws.property_id = addd.propertyid
+  groupby:  GROUP BY  ws.connectionno, addd.propertyusagetype, addd.zonename, addd.propertyid, addd.address, addd.blockname;
     
         
 - reportName: SwDefaulterReport
