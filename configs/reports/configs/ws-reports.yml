@@ -2154,7 +2154,7 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: usagecategory
+  - name: usagecat
     label: reports.ws.usagecat
     type: string
     source: ws
@@ -2186,19 +2186,19 @@ ReportDefinitions:
     total: true
   query: |
     WITH demand_summary AS (
-        SELECT 
-            consumercode, 
-            SUM(minimumamountpayable) AS total_tax_amount
-        FROM 
-            egbs_demand_v1
-        WHERE 
-            businessservice = 'WS'
-            AND tenantid =  $tenantid
-            AND ispaymentcompleted = 'false'
-            AND status = 'ACTIVE'
-            AND minimumamountpayable != 0
-        GROUP BY 
-            consumercode
+    SELECT 
+        consumercode, 
+        SUM(minimumamountpayable) AS total_tax_amount
+    FROM 
+        egbs_demand_v1
+    WHERE 
+        businessservice = 'WS'
+        AND tenantid =  $tenantid
+        AND ispaymentcompleted = 'false'
+        AND status = 'ACTIVE'
+        AND minimumamountpayable != 0
+    GROUP BY 
+        consumercode
     )
     SELECT 
         ws.connectionno AS consumercode, 
@@ -2207,14 +2207,13 @@ ReportDefinitions:
         addd.propertyid,
         addd.address,
         addd.blockname,
-        SUM(demand_summary.total_tax_amount) AS total_tax_amount
+        demand_summary.total_tax_amount
     FROM 
-        (SELECT DISTINCT connectionno, property_id FROM eg_ws_connection) AS ws
+        eg_ws_connection AS ws
     JOIN 
         demand_summary ON ws.connectionno = demand_summary.consumercode
     JOIN 
         report_properties AS addd ON ws.property_id = addd.propertyid
-  groupby:  GROUP BY  ws.connectionno, addd.propertyusagetype, addd.zonename, addd.propertyid, addd.address, addd.blockname;
     
         
 - reportName: SwDefaulterReport
