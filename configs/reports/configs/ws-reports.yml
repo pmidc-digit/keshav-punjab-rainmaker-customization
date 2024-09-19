@@ -2170,25 +2170,35 @@ ReportDefinitions:
     source: ws
     total: false
   query: |
-    SELECT ws.connectionno as consumercode , 
-       pt.usagecategory as usagecat, 
-       users.name as name, 
-       users.mobilenumber as mobilenumber, 
-       CONCAT_WS(', ', addd.buildingname, addd.doorno, addd.street, addd.plotno, addd.landmark) AS full_address FROM eg_ws_connection AS ws
-       JOIN eg_pt_property AS pt ON ws.property_id = pt.propertyid
-    JOIN eg_ws_connectionholder AS conn ON ws.id = conn.connectionid
-    JOIN eg_user AS users ON conn.userid = users.uuid
-    JOIN eg_pt_address AS addd ON pt.id = addd.propertyid
-    WHERE EXISTS (
-        SELECT 1
-        FROM egbs_demand_v1 AS demand
-        WHERE demand.consumercode = ws.connectionno
-          AND demand.businessservice = 'WS'
-          AND demand.tenantid =  $tenantid
-          AND demand.ispaymentcompleted = 'false'
-          and demand.status='ACTIVE'
-    )
+    SELECT 
+    ws.connectionno AS consumercode, 
+    pt.usagecategory AS usagecat, 
+    --    users.name AS name, 
+    --    users.mobilenumber AS mobilenumber, 
+        CONCAT_WS(', ', addd.buildingname, addd.doorno, addd.street, addd.plotno, addd.landmark) AS full_address,
+        SUM(demand.minimumamountpayable) AS total_tax_amount
+    FROM 
+        eg_ws_connection AS ws
+    JOIN 
+        eg_pt_property AS pt ON ws.property_id = pt.propertyid
+    JOIN 
+        eg_ws_connectionholder AS conn ON ws.id = conn.connectionid
+    JOIN 
+        eg_user AS users ON conn.userid = users.uuid
+    JOIN 
+        eg_pt_address AS addd ON pt.id = addd.propertyid
+    JOIN 
+        egbs_demand_v1 AS demand ON demand.consumercode = ws.connectionno
+    WHERE 
+        demand.businessservice = 'WS'
+        AND demand.tenantid = 'pb.amritsar'
+        AND demand.ispaymentcompleted = 'false'
+        AND demand.status = 'ACTIVE'
+        AND demand.minimumamountpayable != 0
+    GROUP BY 
+        ws.connectionno, pt.usagecategory, addd.buildingname, addd.doorno, addd.street, addd.plotno, addd.landmark;
     
+        
 - reportName: SwDefaulterReport
   summary: Sw Defaulter Report
   version: 1.0.0
