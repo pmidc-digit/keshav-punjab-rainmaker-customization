@@ -2159,13 +2159,13 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: name
-    label: reports.ws.name
+  - name: full_address
+    label: reports.ws.full_address
     type: string
     source: ws
     total: false
-  - name: mobilenumber
-    label: reports.ws.mobilenumber
+  - name: total_tax_amount
+    label: reports.ws.total_tax_amount
     type: string
     source: ws
     total: false
