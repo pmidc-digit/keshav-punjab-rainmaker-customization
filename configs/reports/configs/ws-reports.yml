@@ -2229,53 +2229,66 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: total_arrear_demand_amount
-    label: reports.ws.total_arrear_demand_amount
+  - name: usagecat
+    label: reports.ws.usagecat
     type: string
     source: ws
     total: false
-  - name: current_charges_demand_amount
-    label: reports.ws.current_charges_demand_amount
+  - name: zonename
+    label: reports.ws.zonename
+    type: string
+    source: ws
+    total: false
+  - name: propertyid
+    label: reports.ws.propertyid
+    type: string
+    source: ws
+    total: false
+  - name: address
+    label: reports.ws.address
+    type: string
+    source: ws
+    total: false
+  - name: blockname
+    label: reports.ws.blockname
+    type: string
+    source: ws
+    total: false
+  - name: total_tax_amount
+    label: reports.ws.total_tax_amount
     type: string
     source: ws
     total: true
-  - name: arrear_usage_type
-    label: reports.ws.arrear_usage_type
-    type: string
-    source: ws
-    total: false
-  - name: current_charges_usage_type
-    label: reports.ws.current_charges_usage_type
-    type: string
-    source: ws
-    total: false
   query: |
-    WITH quarterly_data AS (
-    SELECT
-        d1.consumercode,
-        CASE WHEN to_timestamp(d1.taxperiodfrom / 1000) < '2023-10-01'::timestamp THEN 'Arrear' ELSE 'Current Charges' END AS charge_category,
-        to_char(to_timestamp(d1.taxperiodfrom / 1000), 'YYYY-MM-DD') AS tax_period_from_date,
-        d2.taxamount AS demand_amount,
-        d2.collectionamount AS collected_amount,
-        d5.usagecategory AS UsageType,
-        ROW_NUMBER() OVER (PARTITION BY d1.consumercode ORDER BY to_timestamp(d1.taxperiodfrom / 1000) DESC) AS row_num
-    FROM egbs_demand_v1 d1
-    LEFT JOIN egbs_demanddetail_v1 d2 ON d1.id = d2.demandid
-    LEFT JOIN eg_sw_connection d4 ON d4.connectionno = d1.consumercode
-    LEFT JOIN eg_pt_property  d5 ON d4.property_id = d5.propertyid 
-    WHERE  d1.taxperiodfrom >= '1672531200000'
-    AND  d1.businessservice = 'SW'
-    AND d1.tenantid = $tenantid
-    AND (d2.collectionamount IS NULL OR d2.collectionamount = 0)) -- Include only pending amounts)
-    SELECT
-        consumercode,
-        SUM(CASE WHEN charge_category = 'Arrear' THEN demand_amount ELSE 0 END) AS total_arrear_demand_amount,
-        MAX(CASE WHEN charge_category = 'Current Charges' THEN demand_amount else 0 END) AS current_charges_demand_amount,
-        MAX(CASE WHEN charge_category = 'Arrear' AND row_num = 1 THEN UsageType else 'NA' END) AS arrear_usage_type,
-        MAX(CASE WHEN charge_category = 'Current Charges' AND row_num = 1 THEN UsageType else 'NA' END) AS current_charges_usage_type
-    FROM quarterly_data
-  groupby: GROUP BY consumercode
-  orderby: ORDER BY consumercode
+    WITH demand_summary AS (
+    SELECT 
+        consumercode, 
+        SUM(minimumamountpayable) AS total_tax_amount
+    FROM 
+        egbs_demand_v1
+    WHERE 
+        businessservice = 'SW'
+        AND tenantid =  $tenantid
+        AND ispaymentcompleted = 'false'
+        AND status = 'ACTIVE'
+        AND minimumamountpayable != 0
+    GROUP BY 
+        consumercode
+    )
+    SELECT 
+        ws.connectionno AS consumercode, 
+        addd.propertyusagetype AS usagecat, 
+        addd.zonename,
+        addd.propertyid,
+        addd.address,
+        addd.blockname,
+        demand_summary.total_tax_amount
+    FROM 
+        eg_sw_connection AS ws
+    JOIN 
+        demand_summary ON ws.connectionno = demand_summary.consumercode
+    JOIN 
+        report_properties AS addd ON ws.property_id = addd.propertyid
   
 - reportName: WsandSwDumpReport
   decryptionPathId: ULBPTDataDumpReport_V2
