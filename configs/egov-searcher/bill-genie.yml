@@ -301,7 +301,7 @@ SearchDefinitions:
           Bills: []
         outJsonPath: $.Bills
         responseInfoPath: $.ResponseInfo
-    - name: integratedbills
+    - name: batchbilling
       isCustomerRowMapEnabled: true
       rowMapperKey: billsearch
       query:
