@@ -2154,6 +2154,21 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
+  - name: payername
+    label: reports.ws.payername
+    type: string
+    source: ws
+    total: false
+  - name: mobilenumber
+    label: reports.ws.mobilenumber
+    type: string
+    source: ws
+    total: false
+  - name: propertyid
+    label: reports.ws.propertyid
+    type: string
+    source: ws
+    total: false
   - name: usagecat
     label: reports.ws.usagecat
     type: string
@@ -2161,11 +2176,6 @@ ReportDefinitions:
     total: false
   - name: zonename
     label: reports.ws.zonename
-    type: string
-    source: ws
-    total: false
-  - name: propertyid
-    label: reports.ws.propertyid
     type: string
     source: ws
     total: false
@@ -2212,10 +2222,10 @@ ReportDefinitions:
     )
     SELECT 
         ws.connectionno AS consumercode, 
-        ranked_bills.payername,
-        ranked_bills.mobilenumber,
-        addd.propertyid,
-        MAX(addd.propertyusagetype) AS usagecat,  -- Use aggregation to avoid duplicates
+        ranked_bills.payername as payername,
+        ranked_bills.mobilenumber as mobilenumber,
+        addd.propertyid as propertyid,
+        MAX(addd.propertyusagetype) AS usagecat, 
         MAX(addd.zonename) AS zonename,
         MAX(addd.address) AS address,
         MAX(addd.blockname) AS blockname,
