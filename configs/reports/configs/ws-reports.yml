@@ -2614,108 +2614,119 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
+
   - name: propertyuid
     label: reports.ws.propertyuid
     type: string
     source: ws
     total: false
+
   - name: propertyusagetype
     label: reports.ws.propertyusagetype
     type: string
     source: ws
     total: false
+
   - name: meterstatus
     label: reports.ws.meterstatus
     type: string
     source: ws
     total: false
+
   - name: lastreading
     label: reports.ws.lastreading
     type: string
     source: ws
     total: false
+
   - name: lastreadingdate
     label: reports.ws.lastreadingdate
     type: string
     source: ws
     total: false
+
   - name: ownername
     label: reports.ws.ownername
     type: string
     source: ws
     total: false
+
   - name: mobileno
     label: reports.ws.mobileno
     type: string
     source: ws
     total: false
+
   - name: locality
     label: reports.ws.locality
     type: string
     source: ws
     total: false
+
   - name: ward
     label: reports.ws.ward
     type: string
     source: ws
     total: false
+
   - name: address
     label: reports.ws.address
     type: string
     source: ws
     total: false
+
   - name: currentmeterstatus
     label: reports.ws.currentmeterstatus
     type: string
     source: ws
     total: false
+
   - name: currentreading
     label: reports.ws.currentreading
     type: string
     source: ws
     total: false
+
   - name: currentreadingdate
     label: reports.ws.currentreadingdate
     type: string
     source: ws
     total: false
+    
   searchParams:
   - name: localityArray
     label: reports.pt.zoneList
     type: boundarylist
     source: pt
     isMandatory: false
-    searchClause: AND p.localitycode IN ($localityArray)
+    searchClause: AND pt.localitycode IN ($localityArray)
   query: |
-    WITH latest_readings AS (SELECT connectionno,  MAX(currentreadingdate) AS latest_reading_date FROM eg_ws_meterreading WHERE tenantid = $tenantid
-    GROUP BY connectionno),
-    connection_details AS ( SELECT b1.connectionno,b1.property_id, b4.currentreading as lastreading, b4.currentreadingdate as lastReadingDate, b4.meterstatus 
-    FROM eg_ws_connection b1 JOIN eg_pt_property b2 ON b1.property_id = b2.propertyid
-    JOIN eg_ws_service b3 ON b1.id = b3.connection_id
-    JOIN eg_ws_meterreading b4 ON b1.connectionno = b4.connectionno
-    JOIN latest_readings lr ON b4.connectionno = lr.connectionno
-    AND b4.currentreadingdate = lr.latest_reading_date
-    WHERE b1.tenantid = $tenantid AND b2.tenantid = $tenantid
-    AND b3.connectiontype = 'Metered' AND b1.status = 'Active')SELECT
-    c.connectionno as connectionno,
-    p.propertyid AS propertyuid,
-    p.propertyusagetype as propertyusagetype,
-    c.meterstatus as meterstatus,
-    c.lastreading as lastreading,
-    to_char((To_timestamp(c.lastReadingDate/1000) at time Zone 'Asia/Kolkata'),'DD-MM-YYYY') as lastreadingdate,
-    split_part(string_agg(u.name, ','), ',', 1) AS ownername,
-    split_part(string_agg(u.mobilenumber, ','), ',', 1) AS mobileno,
-    split_part(string_agg(p.localityname, ','), ',', 1) AS locality,
-    split_part(string_agg(p.blockname, ','), ',', 1) AS ward,
-    split_part(string_agg(p.address, ','), ',', 1) AS address,
-    NULL as currentmeterstatus,
-    NULL as currentreading,
-    NULL as currentreadingdate 
-    FROM report_properties p INNER JOIN connection_details c ON c.property_id = p.propertyid
-    INNER JOIN eg_pt_owner o ON o.propertyid = p.pt_uuid
-    INNER JOIN eg_user u ON u.uuid = o.userid 
-    WHERE p.tenantid = $tenantid AND p.propertystatus = 'ACTIVE'
-  groupby: GROUP BY   p.propertyid,c.connectionno,c.lastreading,c.lastReadingDate,p.propertyusagetype,c.meterstatus
+    SELECT 
+    conn.connectionno, 
+    MAX(mt.billingperiod) AS billingperiod,  
+    MAX(pt.propertyid) AS propertyid,
+    MAX(mt.currentreading) AS currentReading,
+    MAX(mt.lastreading) AS lastReading,
+    MAX(mt.meterstatus) AS meterstatus,
+    MAX(pt.address) AS address, 
+    MAX(pt.blockname) AS blockname,  
+    MAX(pt.zonename) AS zonename, 
+    MAX(pt.zonecode) AS zonecode, 
+    MAX(pt.propertyusagetype) AS propertyusagetype, 
+    MAX(pt.propertytype) AS propertytype    FROM  eg_ws_meterreading AS mt
+    INNER JOIN 
+        eg_ws_connection AS conn ON mt.connectionno = conn.connectionno
+    INNER JOIN 
+        report_properties AS pt ON pt.propertyid = conn.property_id
+    WHERE 
+        conn.tenantid = $tenantid
+    AND 
+        mt.currentreadingdate = (
+            SELECT MAX(currentreadingdate)
+            FROM eg_ws_meterreading
+            WHERE connectionno = mt.connectionno
+        )
+  groupby: GROUP BY   conn.connectionno
 
     
     
