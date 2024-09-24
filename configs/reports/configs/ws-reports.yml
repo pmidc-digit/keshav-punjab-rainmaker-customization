@@ -2169,16 +2169,6 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: usagecat
-    label: reports.ws.usagecat
-    type: string
-    source: ws
-    total: false
-  - name: zonename
-    label: reports.ws.zonename
-    type: string
-    source: ws
-    total: false
   - name: address
     label: reports.ws.address
     type: string
@@ -2225,8 +2215,6 @@ ReportDefinitions:
         ranked_bills.payername as payername,
         ranked_bills.mobilenumber as mobilenumber,
         addd.propertyid as propertyid,
-        MAX(addd.propertyusagetype) AS usagecat, 
-        MAX(addd.zonename) AS zonename,
         MAX(addd.address) AS address,
         MAX(addd.blockname) AS blockname,
         demand_summary.total_tax_amount
