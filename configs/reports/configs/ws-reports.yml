@@ -2614,15 +2614,27 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-
-  - name: propertyuid
-    label: reports.ws.propertyuid
+    
+  - name: billingperiod
+    label: reports.ws.billingperiod
     type: string
     source: ws
     total: false
 
-  - name: propertyusagetype
-    label: reports.ws.propertyusagetype
+  - name: propertyid
+    label: reports.ws.propertyid
+    type: string
+    source: pt
+    total: false
+
+  - name: currentReading
+    label: reports.ws.currentreading
+    type: string
+    source: ws
+    total: false
+
+  - name: lastReading
+    label: reports.ws.lastreading
     type: string
     source: ws
     total: false
@@ -2633,66 +2645,41 @@ ReportDefinitions:
     source: ws
     total: false
 
-  - name: lastreading
-    label: reports.ws.lastreading
-    type: string
-    source: ws
-    total: false
-
-  - name: lastreadingdate
-    label: reports.ws.lastreadingdate
-    type: string
-    source: ws
-    total: false
-
-  - name: ownername
-    label: reports.ws.ownername
-    type: string
-    source: ws
-    total: false
-
-  - name: mobileno
-    label: reports.ws.mobileno
-    type: string
-    source: ws
-    total: false
-
-  - name: locality
-    label: reports.ws.locality
-    type: string
-    source: ws
-    total: false
-
-  - name: ward
-    label: reports.ws.ward
-    type: string
-    source: ws
-    total: false
-
   - name: address
     label: reports.ws.address
     type: string
-    source: ws
+    source: pt
     total: false
 
-  - name: currentmeterstatus
-    label: reports.ws.currentmeterstatus
+  - name: blockname
+    label: reports.ws.blockname
     type: string
-    source: ws
+    source: pt
     total: false
 
-  - name: currentreading
-    label: reports.ws.currentreading
+  - name: zonename
+    label: reports.ws.zonename
     type: string
-    source: ws
+    source: pt
     total: false
 
-  - name: currentreadingdate
-    label: reports.ws.currentreadingdate
+  - name: zonecode
+    label: reports.ws.zonecode
     type: string
-    source: ws
+    source: pt
     total: false
-    
+
+  - name: propertyusagetype
+    label: reports.ws.propertyusagetype
+    type: string
+    source: pt
+    total: false
+
+  - name: propertytype
+    label: reports.ws.propertytype
+    type: string
+    source: pt
+    total: false
   searchParams:
   - name: localityArray
     label: reports.pt.zoneList
