@@ -2193,20 +2193,32 @@ ReportDefinitions:
         egbs_demand_v1
     WHERE 
         businessservice = 'WS'
-        AND tenantid =  $tenantid
+        AND tenantid = $tenantid
         AND ispaymentcompleted = 'false'
         AND status = 'ACTIVE'
-        AND minimumamountpayable != 0
+        AND minimumamountpayable > 0
     GROUP BY 
-        consumercode
+        consumercode ),
+    ranked_bills AS (
+        SELECT 
+            bill.consumercode,
+            bill.payername,
+            bill.mobilenumber,
+            ROW_NUMBER() OVER (PARTITION BY bill.consumercode ORDER BY bill.createddate DESC) AS rn
+        FROM 
+            egbs_bill_v1 AS bill
+        WHERE 
+            bill.status = 'ACTIVE'  
     )
     SELECT 
         ws.connectionno AS consumercode, 
-        addd.propertyusagetype AS usagecat, 
-        addd.zonename,
+        ranked_bills.payername,
+        ranked_bills.mobilenumber,
         addd.propertyid,
-        addd.address,
-        addd.blockname,
+        MAX(addd.propertyusagetype) AS usagecat,  -- Use aggregation to avoid duplicates
+        MAX(addd.zonename) AS zonename,
+        MAX(addd.address) AS address,
+        MAX(addd.blockname) AS blockname,
         demand_summary.total_tax_amount
     FROM 
         eg_ws_connection AS ws
@@ -2214,6 +2226,11 @@ ReportDefinitions:
         demand_summary ON ws.connectionno = demand_summary.consumercode
     JOIN 
         report_properties AS addd ON ws.property_id = addd.propertyid
+    JOIN 
+        ranked_bills ON ranked_bills.consumercode = ws.connectionno
+    WHERE 
+        ranked_bills.rn = 1
+  groupby: GROUP BY  ws.connectionno, ranked_bills.payername, ranked_bills.mobilenumber, addd.propertyid, demand_summary.total_tax_amount
     
         
 - reportName: SwDefaulterReport
