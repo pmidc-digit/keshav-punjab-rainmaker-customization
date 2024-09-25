@@ -3184,7 +3184,7 @@
               "label": "DSS_OVERVIEW",
               "charts": [
                 {
-                  "id": "wstodaysCollectionv2",
+                  "id": "wstodaysCollection",
                   "name": "DSS_W&S_TODAYS_COLLECTION",
                   "code": "",
                   "chartType": "metric",
@@ -3192,7 +3192,7 @@
                   "headers": []
                 },
                 {
-                  "id": "wstotalCollectionv2",
+                  "id": "wstotalCollection",
                   "name": "DSS_W&S_TOTAL_COLLECTION",
                   "code": "",
                   "chartType": "metric",
@@ -3200,7 +3200,7 @@
                   "headers": []
                 },
                 {
-                  "id": "wstargetCollectionv2",
+                  "id": "wstargetCollection",
                   "name": "DSS_W&S_TARGET_COLLECTION",
                   "code": "",
                   "chartType": "metric",
@@ -3208,7 +3208,7 @@
                   "headers": []
                 },
                 {
-                  "id": "wstargetAchievedv2",
+                  "id": "wstargetAchieved",
                   "name": "DSS_W&S_TARGET_ACHIEVED",
                   "code": "",
                   "chartType": "metric",
@@ -3353,7 +3353,7 @@
               "isCollapsible": false,
               "charts": [
                 {
-                  "id": "wsFinancialIndicatorDDRv2",
+                  "id": "wsFinancialIndicatorDDR",
                   "name": "DSS_W&S_DEMAND_COLLECTION_BOUNDARY",
                   "code": "",
                   "chartType": "table",
