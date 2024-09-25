@@ -2254,8 +2254,8 @@ ReportDefinitions:
       report_properties rp ON ws.property_id = rp.propertyid
     JOIN 
       latest_bills lb ON lb.consumercode = ws.connectionno
-    GROUP BY 
-      ws.connectionno, lb.payername, lb.mobilenumber, rp.propertyid, ds.total_tax_amount
+    where  rp.tenantid = $tenantid
+  groupby: GROUP BY ws.connectionno, lb.payername, lb.mobilenumber, rp.propertyid, ds.total_tax_amount
             
 - reportName: SwDefaulterReport
   summary: Sw Defaulter Report
