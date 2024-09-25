@@ -2154,21 +2154,6 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: payername
-    label: reports.ws.payername
-    type: string
-    source: ws
-    total: false
-  - name: mobilenumber
-    label: reports.ws.mobilenumber
-    type: string
-    source: ws
-    total: false
-  - name: propertyid
-    label: reports.ws.propertyid
-    type: string
-    source: ws
-    total: false
   - name: usagecat
     label: reports.ws.usagecat
     type: string
@@ -2176,6 +2161,11 @@ ReportDefinitions:
     total: false
   - name: zonename
     label: reports.ws.zonename
+    type: string
+    source: ws
+    total: false
+  - name: propertyid
+    label: reports.ws.propertyid
     type: string
     source: ws
     total: false
@@ -2192,8 +2182,8 @@ ReportDefinitions:
   - name: total_tax_amount
     label: reports.ws.total_tax_amount
     type: string
-    source: demand_summary
-    total: false
+    source: ws
+    total: true
   query: |
     WITH demand_summary AS (
     SELECT 
@@ -2202,32 +2192,28 @@ ReportDefinitions:
     FROM 
         egbs_demand_v1
     WHERE 
-        businessservice = 'WS'   
-        AND tenantid = $tenantid  
+        businessservice = 'WS'
+        AND tenantid =  $tenantid
         AND ispaymentcompleted = 'false'
         AND status = 'ACTIVE'
-        AND minimumamountpayable > 0
+        AND minimumamountpayable != 0
     GROUP BY 
-        consumercode)
+        consumercode
+    )
     SELECT 
         ws.connectionno AS consumercode, 
-        COALESCE(STRING_AGG(DISTINCT bill.payername, '/') FILTER (WHERE bill.payername IS NOT NULL), 'Please generate bill of this consumer') AS payername,
-        COALESCE(STRING_AGG(DISTINCT bill.mobilenumber, '/') FILTER (WHERE bill.mobilenumber IS NOT NULL), 'Please generate bill of this consumer') AS mobilenumber,
         addd.propertyusagetype AS usagecat, 
         addd.zonename,
         addd.propertyid,
         addd.address,
         addd.blockname,
-        demand_summary.total_tax_amount 
+        demand_summary.total_tax_amount
     FROM 
-        eg_ws_connection AS ws
+        eg_sw_connection AS ws
     JOIN 
         demand_summary ON ws.connectionno = demand_summary.consumercode
     JOIN 
         report_properties AS addd ON ws.property_id = addd.propertyid
-    LEFT JOIN 
-        egbs_bill_v1 AS bill ON ws.connectionno = bill.consumercode
-  groupby: GROUP BY  ws.connectionno, addd.propertyusagetype, addd.zonename,addd.propertyid, addd.address, addd.blockname,  demand_summary.total_tax_amount
             
 - reportName: SwDefaulterReport
   summary: Sw Defaulter Report
