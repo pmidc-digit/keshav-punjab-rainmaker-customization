@@ -2192,8 +2192,8 @@ ReportDefinitions:
   - name: total_tax_amount
     label: reports.ws.total_tax_amount
     type: string
-    source: ws
-    total: true
+    source: demand_summary
+    total: false
   query: |
     WITH demand_summary AS (
     SELECT 
