@@ -2196,58 +2196,38 @@ ReportDefinitions:
     total: true
   query: |
     WITH demand_summary AS (
-      SELECT 
+    SELECT 
         consumercode, 
         SUM(minimumamountpayable) AS total_tax_amount
-      FROM 
+    FROM 
         egbs_demand_v1
-      WHERE 
-        businessservice = 'WS'
-        AND tenantid = $tenantid
+    WHERE 
+        businessservice = 'WS'   
+        AND tenantid = $tenantid  
         AND ispaymentcompleted = 'false'
         AND status = 'ACTIVE'
         AND minimumamountpayable > 0
-      GROUP BY 
-        consumercode
-    ),
-    latest_bills AS (
-      SELECT lb.consumercode, lb.payername, lb.mobilenumber
-      FROM (
-        SELECT 
-          bill.consumercode,
-          bill.payername,
-          bill.mobilenumber,
-          ROW_NUMBER() OVER (PARTITION BY bill.consumercode ORDER BY bill.createddate DESC) AS rn
-        FROM 
-          egbs_bill_v1 bill
-        WHERE 
-          bill.status = 'ACTIVE'
-          AND EXISTS (
-            SELECT 1 FROM eg_ws_connection ws 
-            WHERE ws.connectionno = bill.consumercode
-          )
-      ) lb
-      WHERE lb.rn = 1
-    )
+    GROUP BY 
+        consumercode)
     SELECT 
-      ws.connectionno AS consumercode, 
-      lb.payername AS payername,
-      lb.mobilenumber AS mobilenumber,
-      rp.propertyid AS propertyid,
-      MAX(rp.propertyusagetype) AS usagecat,
-      MAX(rp.zonename) AS zonename,
-      MAX(rp.address) AS address,
-      MAX(rp.blockname) AS blockname,
-      ds.total_tax_amount
+        ws.connectionno AS consumercode, 
+        COALESCE(STRING_AGG(DISTINCT bill.payername, '/') FILTER (WHERE bill.payername IS NOT NULL), 'Please generate bill of this consumer') AS payername,
+        COALESCE(STRING_AGG(DISTINCT bill.mobilenumber, '/') FILTER (WHERE bill.mobilenumber IS NOT NULL), 'Please generate bill of this consumer') AS mobilenumber,
+        addd.propertyusagetype AS usagecat, 
+        addd.zonename,
+        addd.propertyid,
+        addd.address,
+        addd.blockname,
+        demand_summary.total_tax_amount 
     FROM 
-      eg_ws_connection ws
+        eg_ws_connection AS ws
     JOIN 
-      demand_summary ds ON ws.connectionno = ds.consumercode
+        demand_summary ON ws.connectionno = demand_summary.consumercode
     JOIN 
-      report_properties rp ON ws.property_id = rp.propertyid
-    JOIN 
-      latest_bills lb ON lb.consumercode = ws.connectionno
-  groupby: GROUP BY ws.connectionno, lb.payername, lb.mobilenumber, rp.propertyid, ds.total_tax_amount
+        report_properties AS addd ON ws.property_id = addd.propertyid
+    LEFT JOIN 
+        egbs_bill_v1 AS bill ON ws.connectionno = bill.consumercode
+  groupby: GROUP BY  ws.connectionno, addd.propertyusagetype, addd.zonename,addd.propertyid, addd.address, addd.blockname,  demand_summary.total_tax_amount
             
 - reportName: SwDefaulterReport
   summary: Sw Defaulter Report
