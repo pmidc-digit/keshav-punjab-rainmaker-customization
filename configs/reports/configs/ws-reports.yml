@@ -2194,13 +2194,6 @@ ReportDefinitions:
     type: string
     source: ws
     total: true
-  searchParams:
-  - name: localityArray
-    label: reports.pt.zoneList
-    type: boundarylist
-    source: pt
-    isMandatory: true
-    searchClause: AND rp.localitycode IN ($localityArray)
   query: |
     WITH demand_summary AS (
       SELECT 
@@ -2254,7 +2247,6 @@ ReportDefinitions:
       report_properties rp ON ws.property_id = rp.propertyid
     JOIN 
       latest_bills lb ON lb.consumercode = ws.connectionno
-    where  rp.tenantid = $tenantid
   groupby: GROUP BY ws.connectionno, lb.payername, lb.mobilenumber, rp.propertyid, ds.total_tax_amount
             
 - reportName: SwDefaulterReport
