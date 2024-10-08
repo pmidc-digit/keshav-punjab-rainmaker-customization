@@ -706,11 +706,11 @@
               },
               {
                 "variable": "arrears",
-                "formula": "{{billTotalAmount}}>{{demandTotalAmount}}?({{billTotalAmount}}-{{demandTotalAmount}}).toFixed(2):0"
+                "formula": "{{billTotalAmount}}>={{demandTotalAmount}}?({{billTotalAmount}}-{{demandTotalAmount}}).toFixed(2):0"
               },
               {
                 "variable": "advanceAdjusted",
-                "formula": "{{billTotalAmount}}>=0?({{billTotalAmount}}<{{demandTotalAmount}}?({{billTotalAmount}}-{{demandTotalAmount}}).toFixed(2):0):{{demandTotalAmount}} * -1"
+                "formula": "{{billTotalAmount}}> 0?({{billTotalAmount}}<{{demandTotalAmount}}?({{billTotalAmount}}-{{demandTotalAmount}}).toFixed(2):0):{{demandTotalAmount}} * -1"
               },
               {
                 "variable": "advanceAvailable",
